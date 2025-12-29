@@ -1,0 +1,1 @@
+export { default as EventAttendance } from './eventAttendance'
