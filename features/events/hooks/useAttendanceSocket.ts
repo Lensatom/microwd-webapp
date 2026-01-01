@@ -7,7 +7,10 @@ function useAttendanceSocket(event: any) {
   const [attendanceToken, setAttendanceToken] = useState<string | null>(null)
 
   useEffect(() => {
-    const socket = io(`${SERVER_BASE_URL}/events`)
+    const socket = io(`${SERVER_BASE_URL}/events`, {
+      transports: ['websocket'],
+      query: { 'ngrok-skip-browser-warning': 'true' },
+    })
     
     socket.on("connect", () => {
       console.log("Connected to server with ID:", socket.id)

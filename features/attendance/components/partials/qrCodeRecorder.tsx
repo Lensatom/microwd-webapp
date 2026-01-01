@@ -2,12 +2,19 @@
 
 import { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useState } from "react";
+import { useRecordAttendanceSocket } from "../../hooks";
 
 export default function QRCodeRecorder() {
   const [attendanceToken, setAttendanceToken] = useState("");
   const [error, setError] = useState<string>("");
   const [isRunning, setIsRunning] = useState(false);
   const [qrScanner, setQrScanner] = useState<Html5Qrcode | null>(null);
+
+  const [recordSuccessful, setRecordSuccessful] = useState<boolean | null>(null);
+
+  const {
+    recordAttendance
+  } = useRecordAttendanceSocket(null);
 
   useEffect(() => {
     const instance = new Html5Qrcode("reader");
@@ -18,12 +25,9 @@ export default function QRCodeRecorder() {
         .stop()
         .catch(() => {})
         .finally(() => {
-          // Ensure DOM cleanup for the container
           try {
             instance.clear();
-          } catch {
-            // ignore
-          }
+          } catch {}
         });
     };
   }, []);
@@ -32,7 +36,6 @@ export default function QRCodeRecorder() {
     if (!qrScanner) return;
 
     try {
-      // Basic capability checks
       if (!isSecureContext) {
         throw new Error(
           "Camera access requires HTTPS (or localhost over HTTP)."
@@ -50,8 +53,12 @@ export default function QRCodeRecorder() {
       await qrScanner.start(
         { facingMode: "environment" },
         { fps: 10 },
-        (decoded) => {
-          setAttendanceToken(decoded);
+        async (decoded) => {
+          // setAttendanceToken(decoded);
+          const token = decoded.split("token=")[1];
+          // setAttendanceToken(token);
+          setAttendanceToken(token);
+          const response = await recordAttendance(token, handleRecordResponse);
           setError("");
         },
         () => {}
@@ -64,14 +71,20 @@ export default function QRCodeRecorder() {
     }
   };
 
+  const handleRecordResponse = (response: any) => {
+    if (response.isValid) {
+      setRecordSuccessful(true);
+    } else {
+      setRecordSuccessful(false);
+    }
+  };
+
   const stopScanner = async () => {
     if (!qrScanner) return;
     try {
       await qrScanner.stop();
       setIsRunning(false);
-    } catch {
-      // ignore
-    }
+    } catch {}
   };
 
   const onFileSelected = async (file?: File) => {
@@ -88,6 +101,11 @@ export default function QRCodeRecorder() {
 
   return (
     <>
+      {recordSuccessful === true && (<p style={{ color: "green" }}>Attendance recorded successfully!</p>
+      )}
+      {recordSuccessful === false && (
+        <p style={{ color: "red" }}>Failed to record attendance. Please try again.</p>
+      )}
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
         {!isRunning ? (
           <button onClick={startScanner}>Start Scanner</button>

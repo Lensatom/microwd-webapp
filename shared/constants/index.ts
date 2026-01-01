@@ -1,1 +1,1 @@
-export const APP_URL = "http://10.38.20.22:3000"
+export const APP_URL = "https://carole-cymbocephalic-mandi.ngrok-free.dev"

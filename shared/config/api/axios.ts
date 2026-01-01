@@ -5,7 +5,11 @@ import { SERVER_BASE_URL } from './constants';
 
 export const api = axios.create({
   baseURL: SERVER_BASE_URL,
-  headers: {'Content-Type': 'application/json'},
+  headers: {
+    'Content-Type': 'application/json',
+    // Bypass ngrok free interstitial warning page for browser-like clients
+    'ngrok-skip-browser-warning': 'true',
+  },
   timeout: 30000,
 });
 
