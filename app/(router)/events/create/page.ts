@@ -1,0 +1,1 @@
+export { CreateEvent as default } from '@/features/events/pages'
