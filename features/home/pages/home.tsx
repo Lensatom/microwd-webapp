@@ -13,18 +13,18 @@ function Home() {
           <Plus />
           <h2 className="font-bold mt-1">Create an Event</h2>
         </Link>
-        <div className="w-full bg-[#b3886b] p-6 rounded-lg">
+        <Link href="/attendance" className="w-full bg-[#b3886b] p-6 rounded-lg">
           <Dock />
           <h2 className="font-bold mt-1">Submit an Attendance</h2>
-        </div>
-        <div className="w-full bg-[#607466] p-6 rounded-lg">
+        </Link>
+        <Link href="/profile" className="w-full bg-[#607466] p-6 rounded-lg">
           <User />
           <h2 className="font-bold mt-1">Update Info Card</h2>
-        </div>
-        <div className="w-full bg-[#706C61] p-6 rounded-lg">
+        </Link>
+        <Link href="/attendance/history" className="w-full bg-[#706C61] p-6 rounded-lg">
           <History />
           <h2 className="font-bold mt-1">Attendance History</h2>
-        </div>
+        </Link>
       </div>
 
       <div className="px-44 mt-10">

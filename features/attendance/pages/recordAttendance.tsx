@@ -1,7 +1,10 @@
 import { GET } from '@/shared/config/api/crud'
 import QRCodeRecorder from '../components/partials/qrCodeRecorder'
 
-async function RecordAttendance({attendanceToken}: {attendanceToken: string}) {
+async function RecordAttendance({
+  attendanceToken,
+  eventId
+}: {attendanceToken: string, eventId: string}) {
   try {
     if (!attendanceToken) throw new Error("No attendance token provided")
     
@@ -12,7 +15,7 @@ async function RecordAttendance({attendanceToken}: {attendanceToken: string}) {
   
     // console.log(response)
     
-    return <QRCodeRecorder />
+    return <QRCodeRecorder eventId={eventId} />
   } catch (error) {
     return <>Error</>
   }

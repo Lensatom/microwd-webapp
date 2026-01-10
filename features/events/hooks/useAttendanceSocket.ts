@@ -9,7 +9,7 @@ function useAttendanceSocket(event: any) {
   useEffect(() => {
     const socket = io(`${SERVER_BASE_URL}/events`, {
       transports: ['websocket'],
-      query: { 'ngrok-skip-browser-warning': 'true' },
+      // query: { 'ngrok-skip-browser-warning': 'true' },
     })
     
     socket.on("connect", () => {

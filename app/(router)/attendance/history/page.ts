@@ -1,0 +1,1 @@
+export { AttendanceHistory as default } from '@/features/attendance/pages'

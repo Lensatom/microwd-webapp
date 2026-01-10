@@ -1,0 +1,1 @@
+export { Attendance as default } from '@/features/attendance/pages'

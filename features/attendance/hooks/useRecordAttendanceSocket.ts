@@ -2,7 +2,7 @@ import { SERVER_BASE_URL } from '@/shared/config/api/constants'
 import { useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 
-function useRecordAttendanceSocket(event: any) {
+function useRecordAttendanceSocket(eventId: any) {
   const socketRef = useRef<any>(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function useRecordAttendanceSocket(event: any) {
       console.log("Recording attendance for token:", token);
       if (!socket) return;
       console.log("Emitting record-attendance event");
-      socket.emit("record-attendance", {data: {event, token}}, (response: any) => {
+      socket.emit("record-attendance", {data: {eventId, token}}, (response: any) => {
         console.log("Received response for record-attendance:", response);
         callback(response);
       })
