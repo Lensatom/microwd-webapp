@@ -1,0 +1,1 @@
+export { default as AuthLayout } from '@/features/auth/layouts/authLayout'
