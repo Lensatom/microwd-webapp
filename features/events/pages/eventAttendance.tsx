@@ -5,26 +5,21 @@ import { useAttendanceSocket } from "../hooks"
 import { useLayoutEffect, useState } from "react"
 
 function EventAttendance() {
-
   const [qrCodeCanvasSize, setQrCodeCanvasSize] = useState(0)
 
   useLayoutEffect(() => {
-    window.addEventListener("resize", () => {
-      setInitialSize()
-    })
-
-    setInitialSize()
-
+    const handleResize = () => {
+      const deviceHeight = window.innerHeight
+      const deviceWidth = window.innerWidth
+      const size = Math.max(64, Math.min(deviceHeight, deviceWidth) - 100)
+      setQrCodeCanvasSize(size)
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
     return () => {
-      window.removeEventListener("resize", () => {})
+      window.removeEventListener("resize", handleResize)
     }
   }, [])
-
-  function setInitialSize() {
-    const deviceHeight = window.innerHeight
-    const deviceWidth = window.innerWidth
-    setQrCodeCanvasSize(Math.min(deviceHeight, deviceWidth) - 100)
-  }
 
   const event = {
     id: "12345",
