@@ -1,15 +1,26 @@
 "use client"
 
-import { GoalIcon } from "lucide-react"
-import Script from "next/script"
-import { useSignupWithGoogle } from "../api"
+import { storeToken } from "@/shared/config/api/services";
+import { GoalIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
+import { toast } from "react-toastify";
+import { useSignupWithGoogle } from "../api";
 
 function Signup() {
+  const router = useRouter();
   const { signupWithGoogle } = useSignupWithGoogle();
 
-  const handleSignupWithGoogle = (token: {credential: string}) => {
+  const handleSignupWithGoogle = async (token: {credential: string}) => {
     console.log("Google token received:", token);
-    signupWithGoogle(token.credential);
+    try {
+      const { token: responseToken } = await signupWithGoogle(token.credential);
+      await storeToken(responseToken);
+      router.replace("/");
+    } catch (error) {
+      toast.error("Signup with Google failed. Please try again.");
+      console.error("Signup with Google failed:", error);
+    }
   }
 
   const initializeGoogle = () => {
