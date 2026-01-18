@@ -11,7 +11,9 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-white hover:bg-primary/90",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-red-400 text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        destructiveOutline:
+          "border border-red-400 text-red-400 hover:bg-red-400 hover:text-white focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:border-destructive/60 dark:text-destructive/60 dark:hover:bg-destructive/60 dark:hover:text-destructive-foreground",
         outline:
           "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary:
@@ -41,10 +43,13 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
+  disabled,
+  isLoading = false,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
+    asChild?: boolean,
+    isLoading?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
 
@@ -54,8 +59,11 @@ function Button({
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
+      disabled={disabled || isLoading}
       {...props}
-    />
+    >
+      {isLoading ? "Loading..." : props.children}
+    </Comp>
   )
 }
 
