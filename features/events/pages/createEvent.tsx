@@ -8,7 +8,7 @@ import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { validateCreateEvent } from '../helpers/validateCreateEvent';
 
-type INewEvent = Omit<IEvent, "id"> & { newField: string };
+type INewEvent = Omit<IEvent, "_id"> & { newField: string };
 
 function CreateEvent() {
   const router = useRouter();

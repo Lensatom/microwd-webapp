@@ -7,8 +7,6 @@ export const api = axios.create({
   baseURL: SERVER_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    // Bypass ngrok free interstitial warning page for browser-like clients
-    'ngrok-skip-browser-warning': 'true',
   },
   timeout: 30000,
 });
@@ -16,9 +14,8 @@ export const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiRes>) => {
-    const errorMsg = error.response?.data.message ?? 'An error occurred';
-    console.log({ type: 'error', text1: errorMsg, position: 'bottom' })
-    // Toast.show({ type: 'error', text1: errorMsg, position: 'bottom' });
+    const errorMsg = error.response?.data.message ?? error ?? 'An error occurred';
+    console.log({ type: 'error', text: errorMsg })
 
     if (error.response?.status === 401) {
       throw new Error('Session expired. Please log in again.');

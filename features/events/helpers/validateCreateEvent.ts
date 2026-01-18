@@ -1,5 +1,5 @@
 
-export const validateCreateEvent = (data: Omit<IEvent, "id">, changeError: (field: string, message: string) => void) => {
+export const validateCreateEvent = (data: Omit<IEvent, "_id">, changeError: (field: string, message: string) => void) => {
     let isValid = true;
     if (!data.name) {
       changeError("name", "Event name is required");

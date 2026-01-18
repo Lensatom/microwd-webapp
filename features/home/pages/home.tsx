@@ -1,7 +1,15 @@
+import { GET } from "@/shared/config/api/crud"
+import { formatDate } from "@/shared/helpers/utils";
 import { Dock, History, Plus, User } from "lucide-react"
 import Link from "next/link"
 
-function Home() {
+async function Home() {
+  const eventsResponse = await GET({
+    route: '/events/me',
+    isServer: true
+  })
+  const eventsList = eventsResponse.events as IEvent[];
+
   return (
     <div className="w-full h-screen bg-primary-light/5">
       <div className="mx-24 px-20 py-4 border-b border-b-primary-light">
@@ -29,14 +37,16 @@ function Home() {
 
       <div className="px-44 mt-10">
         <h2 className="font-semibold text-gray-500">Your Events</h2>
-        <Link href={`/events/1`} className="block bg-gray-100 p-6 mt-3">
-          <h3>The Forge Conference Workshop Day 1</h3>
-          <p className="text-xs mt-1">12th October 2025</p>
-        </Link>
-        <Link href={`/events/2`} className="block bg-gray-100 p-6 mt-3">
-          <h3>Moonshot 2026 Day 1</h3>
-          <p className="text-xs mt-1">12th October 2025</p>
-        </Link>
+        <div className="grid grid-cols-2 gap-2">
+          {eventsList.length ? eventsList.map((event) => (
+            <Link key={event._id} href={`/events/${event._id}`} className="block bg-gray-100 p-6 mt-3">
+              <h3>{event.name}</h3>
+              <p className="text-xs mt-1">{formatDate(event.date)}</p>
+            </Link>
+          )) : (
+            <p className="text-sm text-gray-400 mt-2 col-span-2">You have not created any events yet.</p>
+          )}
+        </div>
       </div>
     </div>
   )
