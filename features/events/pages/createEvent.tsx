@@ -94,7 +94,7 @@ function CreateEvent() {
           </p>
 
           {data.additionalInfoFields.map((field, index) => (
-            <div key={index} className='flex items-center gap-2 border border-input rounded-md'>
+            <div key={index} className='flex items-center justify-between gap-2 border border-input rounded-md'>
               <Input placeholder="Additional info" className="flex-1 border-0!" value={field} readOnly />
               <Button variant="ghost" size="sm" onClick={() => removeAdditionalInfoField(index)}><X className='text-red-400' /></Button>
             </div>
