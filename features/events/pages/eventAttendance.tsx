@@ -1,11 +1,14 @@
 "use client"
 
 import { QRCodeCanvas } from "qrcode.react"
-import { useAttendanceSocket } from "../hooks"
 import { useLayoutEffect, useState } from "react"
+import { useGetEventById } from "../api"
+import { useAttendanceSocket } from "../hooks"
 
-function EventAttendance() {
+function EventAttendance({ id}: { id: string }) {
   const [qrCodeCanvasSize, setQrCodeCanvasSize] = useState(0)
+  const { event } = useGetEventById({ eventId: id })
+  const { attendanceToken} = useAttendanceSocket(event)
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -21,15 +24,6 @@ function EventAttendance() {
     }
   }, [])
 
-  const event = {
-    id: "12345",
-    name: "Sample Event",
-    date: "2024-06-01",
-    location: "Sample Location"
-  }
-
-  const { attendanceToken} = useAttendanceSocket(event)
-
   return (
     <div className="w-full h-screen grid grid-cols-2 items-center bg-white px-24 gap-24">
       <div>
@@ -42,7 +36,7 @@ function EventAttendance() {
         />
       </div>
       <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-extrabold">The Forge Conference</h1>
+        <h1 className="text-3xl font-extrabold">{event?.name}</h1>
         <p className="mt-2">Scan the QR code to mark your attendance.</p>
       </div>
     </div>
