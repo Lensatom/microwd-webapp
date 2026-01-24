@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { ApiRes } from './interfaces';
 import { getToken } from './services';
 import { SERVER_BASE_URL } from './constants';
+import { redirect } from 'next/navigation';
 
 export const api = axios.create({
   baseURL: SERVER_BASE_URL,
@@ -18,7 +19,7 @@ api.interceptors.response.use(
     console.log({ type: 'error', text: errorMsg })
 
     if (error.response?.status === 401) {
-      throw new Error('Session expired. Please log in again.');
+      redirect('/signup');
     }
 
     console.error('API Error:', error);

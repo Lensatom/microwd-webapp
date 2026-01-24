@@ -1,21 +1,18 @@
 import { GET } from '@/shared/config/api/crud'
-import QRCodeRecorder from '../components/partials/qrCodeRecorder'
+import DataSharePrompt from '../components/partials/dataSharePrompt'
 
 async function RecordAttendance({
-  attendanceToken,
   eventId
-}: {attendanceToken: string, eventId: string}) {
+}: {eventId: string}) {
   try {
-    if (!attendanceToken) throw new Error("No attendance token provided")
-    
-    // const response = await GET({
-    //   route: `/events/attendance/record?attendanceToken=${attendanceToken}`,
-    //   isServer: true
-    // })
+    const response = await GET({
+      route: `/events/${eventId}`,
+      isServer: true
+    })
   
-    // console.log(response)
+    const eventDetails = response.event
     
-    return <QRCodeRecorder eventId={eventId} />
+    return <DataSharePrompt eventDetails={eventDetails} />
   } catch (error) {
     return <>Error</>
   }

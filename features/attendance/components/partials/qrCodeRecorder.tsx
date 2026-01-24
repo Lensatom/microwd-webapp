@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useQrCodeScanner, useRecordAttendanceSocket } from "../../hooks";
 
-export default function QRCodeRecorder({  eventId}: { eventId: string }) {
+export default function QRCodeRecorder({ eventId }: { eventId: string }) {
   const { decodedResult, isRunning, error, readerId } = useQrCodeScanner();
   const { recordAttendance } = useRecordAttendanceSocket(eventId)
   const [recordSuccessful, setRecordSuccessful] = useState<boolean | null>(null);
