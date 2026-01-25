@@ -19,7 +19,7 @@ api.interceptors.response.use(
     console.log({ type: 'error', text: errorMsg })
 
     if (error.response?.status === 401) {
-      redirect('/signup');
+      // redirect('/signup');
     }
 
     console.error('API Error:', error);

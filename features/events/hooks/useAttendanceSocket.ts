@@ -9,11 +9,12 @@ function useAttendanceSocket(event: any) {
   const [attendanceToken, setAttendanceToken] = useState<string | null>(null)
   
   useEffect(() => {
+    if (!event) return;
     handleSocketConnection();
     return () => {
       socket?.disconnect()
     }
-  }, [])
+  }, [event])
 
   async function handleSocketConnection() {
     const token = await getToken();
@@ -41,7 +42,7 @@ function useAttendanceSocket(event: any) {
       console.log("Disconnected from server")
     })
     
-    socket.emit("stream-attendance-tokens", {data: {event}})
+    socket.emit("stream-attendance-tokens", {event})
   }
 
   return {

@@ -8,7 +8,6 @@ function useRecordAttendanceSocket(eventId: any) {
   useEffect(() => {
     const socket = io(`${SERVER_BASE_URL}/events`, {
       transports: ['websocket'],
-      query: { 'ngrok-skip-browser-warning': 'true' },
     })
     socketRef.current = socket;
     
@@ -35,7 +34,7 @@ function useRecordAttendanceSocket(eventId: any) {
       console.log("Recording attendance for token:", token);
       if (!socket) return;
       console.log("Emitting record-attendance event");
-      socket.emit("record-attendance", {data: {eventId, token}}, (response: any) => {
+      socket.emit("record-attendance", {eventId, token}, (response: any) => {
         console.log("Received response for record-attendance:", response);
         callback(response);
       })

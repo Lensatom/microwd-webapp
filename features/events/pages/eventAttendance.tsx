@@ -8,7 +8,7 @@ import { useAttendanceSocket } from "../hooks"
 function EventAttendance({ id}: { id: string }) {
   const [qrCodeCanvasSize, setQrCodeCanvasSize] = useState(0)
   const { event } = useGetEventById({ eventId: id })
-  const { attendanceToken} = useAttendanceSocket(event)
+  const { attendanceToken } = useAttendanceSocket(event)
 
   useLayoutEffect(() => {
     const handleResize = () => {

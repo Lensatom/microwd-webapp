@@ -17,9 +17,10 @@ export function useGetEventById({ eventId}: { eventId: string }) {
   const { data, ...rest } = useQuery({
     queryKey: ['event', eventId],
     queryFn: async () => {
-      return GET({route: '/events'})
+      return GET({route: `/events/${eventId}`});
     }
   });
-  const event = data.event as IEvent || null;
+  console.log("|||||", data)
+  const event = data?.event as IEvent || null;
   return { event, ...rest };
 }
