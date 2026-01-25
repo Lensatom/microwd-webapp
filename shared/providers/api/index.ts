@@ -5,9 +5,10 @@ export const useGetUser = () => {
   const { data, ...rest } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      return GET({
+      const data = await GET({
         route: '/user',
       });
+      return data;
     }
   });
 

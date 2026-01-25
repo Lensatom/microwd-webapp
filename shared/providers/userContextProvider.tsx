@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { UserContext } from "../contexts/userContext";
 import { useGetUser } from "./api";
 
@@ -12,16 +12,14 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!isPending && !user && pathname !== "/signup") {
-      // router.replace("/signup");
+      router.replace("/signup");
     }
   }, [isPending, user, pathname, router]);
 
+  console.log(user)
+
   if (isPending) {
     return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return <>{children}</>;
   }
 
   return (
@@ -29,5 +27,4 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
       {children}
     </UserContext.Provider>
   );
-
 }

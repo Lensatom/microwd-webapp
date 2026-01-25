@@ -18,7 +18,7 @@ function useAttendanceSocket(event: any) {
 
   async function handleSocketConnection() {
     const token = await getToken();
-    socket = io(`${SERVER_BASE_URL}/events`, {
+    socket = io(`${SERVER_BASE_URL}/events?ngrok-skip-browser-warning=true`, {
       transports: ['websocket'],
       auth: { token }
     })

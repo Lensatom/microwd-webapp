@@ -8,6 +8,8 @@ export const api = axios.create({
   baseURL: SERVER_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    // Bypass ngrok browser interstitial for XHR/fetch
+    'ngrok-skip-browser-warning': 'true',
   },
   timeout: 30000,
 });
