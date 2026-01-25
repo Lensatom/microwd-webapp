@@ -30,7 +30,7 @@ function useAttendanceSocket(event: any) {
     socket.on("new-attendance-token", (data:any) => {
       const { attendanceToken: receivedAttendanceToken } = data
       console.log("Received new attendance token:", receivedAttendanceToken)
-      const qrMessage = `${APP_URL}/attendance/record?token=${receivedAttendanceToken}`
+      const qrMessage = `${APP_URL}/attendance/${event._id}/record?token=${receivedAttendanceToken}`
       setAttendanceToken(qrMessage)
     })
 
