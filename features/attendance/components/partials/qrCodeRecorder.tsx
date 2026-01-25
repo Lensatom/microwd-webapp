@@ -6,24 +6,33 @@ import { useQrCodeScanner, useRecordAttendanceSocket } from "../../hooks";
 export default function QRCodeRecorder({ eventId }: { eventId: string }) {
   const { decodedResult, isRunning, error, readerId } = useQrCodeScanner();
   const { recordAttendance } = useRecordAttendanceSocket(eventId)
+  
   const [recordSuccessful, setRecordSuccessful] = useState<boolean | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
-    if (!isRunning || !decodedResult) return;
+    if (isScanning) return;
+    setIsScanning(true);
+    if (!isRunning || !decodedResult) {
+      setIsScanning(false);
+      return
+    };
     const attendanceToken = decodedResult.split("?token=")[1];
-    if (!attendanceToken) return
+    if (!attendanceToken) {
+      setIsScanning(false);
+      return
+    };
     recordAttendance(attendanceToken, (response) => {
       setRecordSuccessful(response.success);
+      setIsScanning(false);
     });
   }, [isRunning, decodedResult]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen py-10">
-      {recordSuccessful === true && (<p style={{ color: "green" }}>Attendance recorded successfully!</p>
-      )}
-      {recordSuccessful === false && (
-        <p style={{ color: "red" }}>Failed to record attendance. Please try again.</p>
-      )}
+      {recordSuccessful === null && <p>Waiting to scan QR code...</p>}
+      {recordSuccessful === true && <p style={{ color: "green" }}>Attendance recorded successfully!</p>}
+      {recordSuccessful === false && <p style={{ color: "red" }}>Failed to record attendance. Please try again.</p>}
 
       <div id={readerId} className="w-100 rounded-xl overflow-hidden" />
       <h1 className="mt-5 font-bold text-xl text-center w-112.5">Now scan the event QR Code to record your attendance</h1>
