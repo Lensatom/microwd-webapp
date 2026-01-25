@@ -16,8 +16,6 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     }
   }, [isPending, user, pathname, router]);
 
-  console.log(user)
-
   if (isPending) {
     return <div>Loading...</div>;
   }

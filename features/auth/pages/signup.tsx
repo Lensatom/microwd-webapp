@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/shared/components/ui";
 import { storeToken } from "@/shared/config/api/services";
 import { GoalIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,30 +32,14 @@ function Signup() {
 
     window.google.accounts.id.renderButton(
       document.getElementById("googleBtn"),
-      { theme: "outline", size: "large" }
-    );
-  };
-
-  const triggerGoogleSignin = () => {
-    try {
-      if (window.google?.accounts?.id) {
-        // Try One Tap / FedCM prompt; if the browser blocks it,
-        // fall back to the visible Google-rendered button below.
-        window.google.accounts.id.prompt((notification: any) => {
-          const blocked = (notification?.isNotDisplayed && notification.isNotDisplayed())
-            || (notification?.isSkippedMoment && notification.isSkippedMoment());
-          if (blocked) {
-            const container = document.getElementById('googleBtn');
-            if (container) {
-              container.style.display = '';
-            }
-          }
-        });
-        return;
+      {
+        theme: "filled_black",
+        size: "large",
+        text: "continue_with",
+        shape: "pill",
+        logo_alignment: "center"
       }
-    } catch (e) {
-      console.error('Failed to trigger Google sign-in:', e);
-    }
+    );
   };
 
   return (
@@ -71,14 +54,12 @@ function Signup() {
         <GoalIcon size={300} className="text-primary-light" />
       </div>
       <div className="w-1/2 flex flex-col justify-center items-center gap-8 pr-44">
-        <h1 className="text-5xl font-extrabold text-primary-light">
-          Microwd
-        </h1>
-        <p className="text-primary-light/50 text-sm w-1/2 text-center">Take attendance easier, faster and more securely. Signup with Google to continue</p>
+        <h1 className="text-5xl font-extrabold text-primary-light">Microwd</h1>
+        <p className="text-primary-light/50 text-sm w-1/2 text-center">
+          Take attendance easier, faster and more securely.
+          Signup with Google to continue
+        </p>
         <div id="googleBtn"></div>
-        <Button type="button" onClick={triggerGoogleSignin} className="bg-transparent border border-primary-light w-[60%] hover:w-[70%] py-5!">
-          Continue with Google
-        </Button>
       </div>
     </div>
     </>
