@@ -1,75 +1,77 @@
-import { Html5Qrcode } from 'html5-qrcode';
-import { useEffect, useId, useState } from 'react';
+import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
+import { useEffect, useRef, useState } from "react";
 
 function useQrCodeScanner() {
+  const scannerRef = useRef<Html5Qrcode | null>(null);
+  const [decodedResult, setDecodedResult] = useState("");
+  const [error, setError] = useState("");
   const [isRunning, setIsRunning] = useState(false);
-  const [qrScanner, setQrScanner] = useState<Html5Qrcode | null>(null);
-  const [decodedResult, setDecodedResult] = useState<string>("");
-  const [error, setError] = useState<string>("");
 
-  const readerId = useId();
-  
-  useEffect(() => {
-    const instance = new Html5Qrcode(readerId);
-    setQrScanner(instance);
-  }, []);
+  const readerId = "qr-reader";
 
   useEffect(() => {
-    if (!qrScanner) return;
-    startScanner();
+    if (!isSecureContext) {
+      setError("Camera access requires HTTPS or localhost.");
+      return;
+    }
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setError("Camera streaming not supported.");
+      return;
+    }
+
+    const el = document.getElementById(readerId);
+    if (!el) return;
+
+    scannerRef.current = new Html5Qrcode(readerId);
+
+    const start = async () => {
+      try {
+        const cameras = await Html5Qrcode.getCameras();
+        if (!cameras.length) throw new Error("No camera found");
+
+        await scannerRef.current!.start(
+          { facingMode: "environment" },
+          { fps: 15 },
+          (decodedText) => {
+            if (decodedText === decodedResult) return;
+            setDecodedResult(decodedText);
+          },
+          () => {}
+        );
+
+        setIsRunning(true);
+      } catch (e: any) {
+        setError(e.message ?? "Failed to start scanner");
+      }
+    };
+
+    start();
 
     return () => {
-      qrScanner
-        .stop()
-        .catch(() => {})
-        .finally(() => {
-          try {
-            qrScanner.clear();
-          } catch {}
-        });
+      const scanner = scannerRef.current;
+      if (!scanner) return;
+
+      const state = scanner.getState();
+
+      if (state === Html5QrcodeScannerState.SCANNING) {
+        scanner
+          .stop()
+          .catch(() => {})
+          .finally(() => {
+            scanner.clear();
+            scannerRef.current = null;
+          });
+      }
     };
-  }, [qrScanner]);
-
-  const startScanner = async () => {
-    if (!qrScanner) return;
-
-    try {
-      if (!isSecureContext) {
-        throw new Error(
-          "Camera access requires HTTPS (or localhost over HTTP)."
-        );
-      }
-      if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error("Camera streaming not supported by this browser.");
-      }
-
-      const cameras = await Html5Qrcode.getCameras();
-      if (!cameras || cameras.length === 0) {
-        throw new Error("No camera device found.");
-      }
-
-      await qrScanner.start(
-        { facingMode: "environment" },
-        { fps: 10 },
-        async (decoded) => {
-          setDecodedResult(decoded);
-        },
-        () => {}
-      );
-      setIsRunning(true);
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : String(e);
-      setError(message);
-      setIsRunning(false);
-    }
-  };
+  }, []);
 
   return {
-    isRunning,
-    decodedResult,
     readerId,
-    error
-  }
+    decodedResult,
+    isRunning,
+    error,
+  };
 }
 
-export default useQrCodeScanner
+export default useQrCodeScanner;

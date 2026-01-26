@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useQrCodeScanner, useRecordAttendanceSocket } from "../../hooks";
+import { IAttendance } from "../../interfaces";
 
-export default function QRCodeRecorder({ eventId }: { eventId: string }) {
+interface IQRCodeRecorderProps {
+  eventId: string;
+  userData: IAttendance;
+}
+
+export default function QRCodeRecorder({ eventId, userData }: IQRCodeRecorderProps) {
   const { decodedResult, isRunning, error, readerId } = useQrCodeScanner();
   const { recordAttendance } = useRecordAttendanceSocket(eventId)
   
@@ -22,11 +28,11 @@ export default function QRCodeRecorder({ eventId }: { eventId: string }) {
       setIsScanning(false);
       return
     };
-    recordAttendance(attendanceToken, (response) => {
+    recordAttendance({attendanceToken, userData}, (response) => {
       setRecordSuccessful(response.success);
       setIsScanning(false);
     });
-  }, [isRunning, decodedResult]);
+  }, [isRunning, decodedResult, userData]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen py-10">

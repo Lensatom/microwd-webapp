@@ -7,3 +7,13 @@ export interface IEventDetails {
   user_id: string,
   additionalInfoFields: string[],
 }
+
+export interface IAttendance {
+  first_name: string,
+  last_name: string,
+  email: string,
+  additionalInfoFields: {
+    field: string;
+    value: string;
+  }[],
+}
