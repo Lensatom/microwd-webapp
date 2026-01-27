@@ -19,7 +19,7 @@ function useRecordAttendanceSocket(eventId: any) {
   async function handleSocketConnection() {
     const token = await getToken();
 
-    const socket = io(`${SERVER_BASE_URL}/events?ngrok-skip-browser-warning=true`, {
+    const socket = io(`${SERVER_BASE_URL}/attendance?ngrok-skip-browser-warning=true`, {
       transports: ['websocket'],
       auth: { token }
     })
