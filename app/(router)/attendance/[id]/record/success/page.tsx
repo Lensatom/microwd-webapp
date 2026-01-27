@@ -1,0 +1,1 @@
+export { RecordAttendanceSuccess as default } from "@/features/attendance/pages"

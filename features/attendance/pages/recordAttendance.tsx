@@ -1,4 +1,5 @@
 import { GET } from '@/shared/config/api/crud'
+import { redirect } from 'next/navigation'
 import DataSharePrompt from '../components/partials/dataSharePrompt'
 
 async function RecordAttendance({
@@ -13,7 +14,7 @@ async function RecordAttendance({
     const eventDetails = response.event
 
     if (eventDetails.hasFilled) {
-      return <div className='p-10'>You have already recorded your attendance for this event. Thank you!</div>
+      redirect(`/attendance/${eventId}/record/success`)
     }
     
     return <DataSharePrompt eventDetails={eventDetails} />

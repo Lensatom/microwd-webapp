@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useQrCodeScanner, useRecordAttendanceSocket } from "../../hooks";
 import { IAttendance } from "../../interfaces";
+import { redirect } from "next/navigation";
 
 interface IQRCodeRecorderProps {
   eventId: string;
@@ -30,6 +31,9 @@ export default function QRCodeRecorder({ eventId, userData }: IQRCodeRecorderPro
     };
     recordAttendance({attendanceToken, userData}, (response) => {
       setRecordSuccessful(response.success);
+      if (response.success) {
+        redirect(`/attendance/${eventId}/record/success`);
+      }
       setIsScanning(false);
     });
   }, [isRunning, decodedResult, userData]);
