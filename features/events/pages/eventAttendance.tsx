@@ -7,7 +7,7 @@ import { useAttendanceSocket } from "../hooks"
 
 function EventAttendance({ id}: { id: string }) {
   const [qrCodeCanvasSize, setQrCodeCanvasSize] = useState(0)
-  const { event } = useGetEventById({ eventId: id })
+  const { event, isPending } = useGetEventById({ eventId: id })
   const { attendanceToken } = useAttendanceSocket(event)
 
   useLayoutEffect(() => {
@@ -24,6 +24,9 @@ function EventAttendance({ id}: { id: string }) {
     }
   }, [])
 
+  console.log(event)
+
+  if (isPending) return <div className="w-full h-screen flex items-center justify-center">Loading event details...</div>
   return (
     <div className="w-full h-screen grid grid-cols-2 items-center bg-white px-24 gap-24">
       <div>

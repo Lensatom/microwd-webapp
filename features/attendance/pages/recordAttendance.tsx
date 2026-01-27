@@ -11,6 +11,10 @@ async function RecordAttendance({
     })
   
     const eventDetails = response.event
+
+    if (eventDetails.hasFilled) {
+      return <div className='p-10'>You have already recorded your attendance for this event. Thank you!</div>
+    }
     
     return <DataSharePrompt eventDetails={eventDetails} />
   } catch (error) {
