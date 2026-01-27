@@ -30,7 +30,9 @@ async function EventDetails({ id }: { id: string }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="start">
             <DropdownMenuItem>
-              <Eye />See attendance List
+              <Link href={`/events/${id}/attendance-list`} className="flex items-center gap-2">
+                <Eye />See attendance List
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <ArrowDownToLine />Download Attendance List
