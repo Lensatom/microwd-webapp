@@ -21,7 +21,7 @@ function AnimatedList({
       <p className="text-xs mt-1 text-primary-light whitespace-nowrap">
         {subText?.split("").map((char, index) => <Char key={index} char={char} delayIndex={index} />)}
       </p>
-      <div className="h-px mt-1 bg-primary-light" style={{animation: "drawLine 1s ease-in-out", animationDelay: `${delayIndex ? delayIndex * 200 : 0}ms`, animationFillMode: "forwards"}} />
+      <div className="h-px mt-1" style={{animation: "drawLine 1s ease-in-out", animationDelay: `${delayIndex ? delayIndex * 200 : 0}ms`, animationFillMode: "forwards"}} />
       <p className="text-xs mt-1 text-primary-light whitespace-nowrap">{endText}</p>
     </div>
   )
