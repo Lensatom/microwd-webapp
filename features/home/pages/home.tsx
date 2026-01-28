@@ -1,7 +1,9 @@
-import { GET } from "@/shared/config/api/crud"
+import { HomeHeader } from "@/features/partials";
+import { AnimatedList } from "@/shared/components/shared";
+import { GET } from "@/shared/config/api/crud";
 import { formatDate } from "@/shared/helpers/utils";
-import { Dock, History, Plus, User } from "lucide-react"
-import Link from "next/link"
+import { Calendar, Dock, History, Plus } from "lucide-react";
+import Link from "next/link";
 
 async function Home() {
   const eventsResponse = await GET({
@@ -11,42 +13,47 @@ async function Home() {
   const eventsList = eventsResponse.events as IEvent[];
 
   return (
-    <div className="w-full h-screen bg-primary-light/5">
-      <div className="mx-24 px-20 py-4 border-b border-b-primary-light">
-        <h1 className="font-extrabold text-primary text-lg">Microwd</h1>
-      </div>
+    <div className="h-screen bg-primary pt-6 w-full">
+      <div className="w-1/2 mx-auto">
+        <HomeHeader />
 
-      <div className="grid grid-cols-4 gap-6 px-44 mt-8 text-white">
-        <Link href="/events/create" className="w-full bg-[#273E47] p-6 rounded-lg">
-          <Plus />
-          <h2 className="font-bold mt-1">Create an Event</h2>
-        </Link>
-        <Link href="/attendance" className="w-full bg-[#b3886b] p-6 rounded-lg">
-          <Dock />
-          <h2 className="font-bold mt-1">Submit an Attendance</h2>
-        </Link>
-        <Link href="/profile" className="w-full bg-[#607466] p-6 rounded-lg">
-          <User />
-          <h2 className="font-bold mt-1">Update Info Card</h2>
-        </Link>
-        <Link href="/attendance/history" className="w-full bg-[#706C61] p-6 rounded-lg">
-          <History />
-          <h2 className="font-bold mt-1">Attendance History</h2>
-        </Link>
-      </div>
+        <section className="grid grid-cols-3 gap-6 mt-5 text-gray-300/80">
+          <Link href="/events/create" className="w-full bg-[#273E47]/80 p-4 rounded-md flex items-center gap-2">
+            <Plus />
+            <h2 className="font-bold mt-1">Create Event</h2>
+          </Link>
+          <Link href="/attendance" className="w-full bg-[#b3886b]/80 p-4 rounded-md flex items-center gap-2">
+            <Dock />
+            <h2 className="font-bold mt-1">Submit Attendance</h2>
+          </Link>
+          <Link href="/attendance/history" className="w-full bg-[#706C61]/80 p-4 rounded-md flex items-center gap-2">
+            <History />
+            <h2 className="font-bold mt-1">History</h2>
+          </Link>
+        </section>
 
-      <div className="px-44 mt-10">
-        <h2 className="font-semibold text-gray-500">Your Events</h2>
-        <div className="grid grid-cols-2 gap-2">
-          {eventsList.length ? eventsList.map((event) => (
-            <Link key={event._id} href={`/events/${event._id}`} className="block bg-gray-100 p-6 mt-3">
-              <h3>{event.name}</h3>
-              <p className="text-xs mt-1">{formatDate(event.date)}</p>
-            </Link>
-          )) : (
-            <p className="text-sm text-gray-400 mt-2 col-span-2">You have not created any events yet.</p>
-          )}
-        </div>
+        <section className="mt-12">
+          <div className="flex items-center gap-2 text-white/50">
+            <Calendar size={20} />
+            <h2 className="font-semibold">
+              You are hosting...
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 mt-6 gap-2">
+            {eventsList.length ? eventsList.map((event, index) => (
+              <Link key={event._id} href={`/events/${event._id}`} className="flex border items-center gap-2 rounded-lg -mx-4">
+                <AnimatedList
+                  mainText={event.name}
+                  subText={event.location}
+                  endText={formatDate(event.date)}
+                  delayIndex={index}
+                />
+              </Link>
+            )) : (
+              <p className="text-sm text-gray-400 mt-2 col-span-2">You have not created any events yet.</p>
+            )}
+          </div>
+        </section>
       </div>
     </div>
   )
