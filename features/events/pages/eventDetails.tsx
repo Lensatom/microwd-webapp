@@ -1,8 +1,10 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui"
 import { GET } from "@/shared/config/api/crud"
 import { formatDate } from "@/shared/helpers/utils"
-import { ArrowDownToLine, Calendar, ChevronDown, Eye, MapPin, Pen, Trash } from "lucide-react"
+import { Calendar, ChevronDown, Eye, MapPin, Pen, Trash } from "lucide-react"
 import Link from "next/link"
+import DownloadAttendancePDF from "../partials/downloadAttendancePdf"
+import { IEvent } from "../types"
 
 async function EventDetails({ id }: { id: string }) {
   const eventResponse = await GET({
@@ -40,9 +42,7 @@ async function EventDetails({ id }: { id: string }) {
                 <Eye />See attendance List
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <ArrowDownToLine />Download Attendance List
-            </DropdownMenuItem>
+            <DownloadAttendancePDF event={event} />
             <DropdownMenuItem>
               <Pen />Edit Event
             </DropdownMenuItem>

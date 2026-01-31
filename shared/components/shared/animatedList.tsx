@@ -67,7 +67,7 @@ function Char({ char, delayIndex }: { char: string; delayIndex?: number }) {
 
   if (charactersWithChar[characterIndex] === " ") return " "
   
-  return <span className={`inline-block`}>{charactersWithChar[characterIndex]}</span>
+  return <span>{charactersWithChar[characterIndex]}</span>
 }
 
 export default AnimatedList
