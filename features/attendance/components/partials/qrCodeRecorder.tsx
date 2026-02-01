@@ -47,6 +47,8 @@ export default function QRCodeRecorder({ eventId, additionalInfo }: IQRCodeRecor
       <div id={readerId} className="w-100 rounded-xl overflow-hidden" />
       <h1 className="mt-5 font-bold text-xl text-center w-112.5">Now scan the event QR Code to record your attendance</h1>
 
+      {JSON.stringify(additionalInfo)}
+
       {error && (
         <p style={{ color: "#b00020", marginTop: 8 }}>
           {error} {error.includes("HTTPS") ? " If you're not on HTTPS, switch to a secure origin or use localhost." : ""}
