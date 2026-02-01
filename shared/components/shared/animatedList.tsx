@@ -14,15 +14,17 @@ function AnimatedList({
   delayIndex?: number;
 }) {
   return (
-    <div className="w-full flex items-center gap-2 animatedList p-4 rounded-lg" style={{animation: "fadeIn 1s ease-in-out", animationDelay: `${delayIndex ? delayIndex * 100 : 0}ms`, animationFillMode: "forwards"}}>
-      <h3 className="text-white/90 text-sm whitespace-nowrap">
-        {mainText.split("").map((char, index) => <Char key={index} char={char} delayIndex={index} />)}
-      </h3>
-      <p className="text-xs mt-1 text-primary-light whitespace-nowrap">
-        {subText?.split("").map((char, index) => <Char key={index} char={char} delayIndex={index} />)}
-      </p>
-      <div className="h-px mt-1" style={{animation: "drawLine 1s ease-in-out", animationDelay: `${delayIndex ? delayIndex * 200 : 0}ms`, animationFillMode: "forwards"}} />
-      <p className="text-xs mt-1 text-primary-light whitespace-nowrap">{endText}</p>
+    <div className="w-full flex flex-col lg:flex-row lg:items-center gap-2 animatedList px-4 py-2 lg:py-4 rounded-sm lg:rounded-lg bg-primary-light/5 lg:bg-transparent" style={{animation: "fadeIn 1s ease-in-out", animationDelay: `${delayIndex ? delayIndex * 100 : 0}ms`, animationFillMode: "forwards"}}>
+      <div className="flex items-center gap-2">
+        <h3 className="text-white/90 text-sm whitespace-nowrap">
+          {mainText.split("").map((char, index) => <Char key={index} char={char} delayIndex={index} />)}
+        </h3>
+        <p className="text-xs text-primary-light whitespace-nowrap">
+          {subText?.split("").map((char, index) => <Char key={index} char={char} delayIndex={index} />)}
+        </p>
+      </div>
+      <div className="h-px mt-1 hidden lg:block" style={{animation: "drawLine 1s ease-in-out", animationDelay: `${delayIndex ? delayIndex * 200 : 0}ms`, animationFillMode: "forwards"}} />
+      <p className="text-xs lg:mt-1 text-primary-light whitespace-nowrap">{endText}</p>
     </div>
   )
 }

@@ -14,33 +14,33 @@ async function Home() {
   const eventsList = eventsResponse.events as IEvent[];
 
   return (
-    <div className="h-screen bg-primary pt-6 w-full">
-      <div className="w-1/2 mx-auto">
+    <div className="h-screen bg-primary lg:pt-6 w-full">
+      <div className="lg:w-1/2 px-4 lg:px-0 mx-auto">
         <HomeHeader />
 
-        <section className="grid grid-cols-3 gap-6 mt-5 text-gray-300/80">
-          <Link href="/events/create" className="w-full bg-[#273E47]/80 p-4 rounded-md flex items-center gap-2">
+        <section className="lg:grid lg:grid-cols-3 flex flex-col overflow-x-auto gap-2 mt-5 text-gray-300/80">
+          <Link href="/events/create" className="lg:w-full bg-[#273E47]/80 p-4 rounded-md flex items-center gap-2">
             <Plus />
-            <h2 className="font-bold mt-1">Create Event</h2>
+            <h2 className="font-bold mt-1 whitespace-nowrap">Create Event</h2>
           </Link>
-          <Link href="/attendance" className="w-full bg-[#b3886b]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/attendance" className="lg:w-full bg-[#b3886b]/80 p-4 rounded-md hidden lg:flex items-center gap-2">
             <Dock />
-            <h2 className="font-bold mt-1">Submit Attendance</h2>
+            <h2 className="font-bold mt-1 whitespace-nowrap">Submit Attendance</h2>
           </Link>
-          <Link href="/attendance/history" className="w-full bg-[#706C61]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/attendance/history" className="lg:w-full bg-[#706C61]/80 p-4 rounded-md hidden lg:flex items-center gap-2">
             <History />
-            <h2 className="font-bold mt-1">History</h2>
+            <h2 className="font-bold mt-1 whitespace-nowrap">History</h2>
           </Link>
         </section>
 
-        <section className="mt-12">
+        <section className="mt-8 lg:mt-12">
           <div className="flex items-center gap-2 text-white/50">
             <Calendar size={20} />
             <h2 className="font-semibold">
               You are hosting...
             </h2>
           </div>
-          <div className="grid grid-cols-1 mt-6 gap-2">
+          <div className="grid grid-cols-1 mt-6 gap-2 px-4 lg:px-0">
             {eventsList.length ? eventsList.map((event, index) => (
               <Link key={event._id} href={`/events/${event._id}`} className="flex border items-center gap-2 rounded-lg -mx-4">
                 <AnimatedList

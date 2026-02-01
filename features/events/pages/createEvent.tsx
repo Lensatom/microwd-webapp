@@ -1,15 +1,13 @@
 "use client"
 
-import { Input } from '@/shared/components/form'
-import { Button } from '@/shared/components/ui'
-import { useCreateEvent } from '../api'
+import { Input } from '@/shared/components/form';
+import { Button } from '@/shared/components/ui';
 import { useForm } from '@/shared/hooks/useForm';
-import { Plus, X } from 'lucide-react';
+import { ChevronLeftCircle, Plus, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useCreateEvent } from '../api';
 import { validateCreateEvent } from '../helpers/validateCreateEvent';
 import { IEvent } from '../types';
-
-type INewEvent = Omit<IEvent, "_id"> & { newField: string };
 
 function CreateEvent() {
   const router = useRouter();
@@ -54,9 +52,13 @@ function CreateEvent() {
     
   return (
     <div className='w-full min-h-screen flex py-10 justify-center items-center bg-primary'>
-      <div className='w-1/3 mx-auto py-6'>
+      <div className='lg:w-1/3 w-full px-4 lg:px-0 mx-auto py-6'>
         <div>
-          <h1 className='font-bold text-2xl text-white'>Create an Event</h1>
+          <button onClick={() => router.back()} className='cursor-pointer'>
+            <ChevronLeftCircle className='inline-block mr-2 mb-2 text-primary-light' />
+          </button>
+          <h1 className='font-bold text-2xl text-white'>
+            Create an Event</h1>
           <p className='text-sm mt-1 text-primary-light'>Host an event to take attendance for on Microwd.</p>
         </div>
         <form className='flex flex-col items-start gap-6 mt-6' onSubmit={handleSubmit}>
@@ -113,7 +115,7 @@ function CreateEvent() {
             Add additional fields
           </Button>
           
-          <Button type="submit" isLoading={isPending} className="mt-2 px-8 py-2 bg-white text-primary rounded-md hover:bg-primary-dark transition">
+          <Button type="submit" isLoading={isPending} className="w-full mt-2 px-8 py-2 bg-white/70 text-primary rounded-md hover:bg-primary-dark transition">
             Create Event
           </Button>
         </form>
