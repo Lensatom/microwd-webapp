@@ -18,5 +18,9 @@ export const validateCreateEvent = (data: Omit<IEvent, "_id">, changeError: (fie
       changeError("description", "Event description is required");
       isValid = false;
     }
+    if (data.additionalInfoFields.some(field => !field.trim())) {
+      changeError("additionalInfoFields", "Additional info fields cannot be empty");
+      isValid = false;
+    }
     return isValid;
   }
