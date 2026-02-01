@@ -1,3 +1,4 @@
+import { IEvent } from "../types";
 
 export const validateCreateEvent = (data: Omit<IEvent, "_id">, changeError: (field: string, message: string) => void) => {
     let isValid = true;
