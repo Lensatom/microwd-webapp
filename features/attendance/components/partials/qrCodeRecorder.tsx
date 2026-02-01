@@ -14,7 +14,7 @@ export default function QRCodeRecorder({ eventId, additionalInfo }: IQRCodeRecor
   const { decodedResult, isRunning, error, readerId } = useQrCodeScanner();
   const { recordAttendance } = useRecordAttendanceSocket(eventId)
   
-  const [recordSuccessful, setRecordSuccessful] = useState<boolean | null>(null);
+  const [recordSuccessful, setRecordSuccessful] = useState<{ success: boolean, message: string } | null>(null);
   const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function QRCodeRecorder({ eventId, additionalInfo }: IQRCodeRecor
       return
     };
     recordAttendance({attendanceToken, additionalInfo}, (response) => {
-      setRecordSuccessful(response.success);
+      setRecordSuccessful(response);
       if (response.success) {
         redirect(`/attendance/${eventId}/record/success`);
       }
@@ -41,8 +41,8 @@ export default function QRCodeRecorder({ eventId, additionalInfo }: IQRCodeRecor
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen py-10">
       {recordSuccessful === null && <p>Waiting to scan QR code...</p>}
-      {recordSuccessful === true && <p style={{ color: "green" }}>Attendance recorded successfully!</p>}
-      {recordSuccessful === false && <p style={{ color: "red" }}>Failed to record attendance. Please try again.</p>}
+      {recordSuccessful?.success === true && <p style={{ color: "green" }}>Attendance recorded successfully!</p>}
+      {recordSuccessful?.success === false && <p style={{ color: "red" }}>{recordSuccessful.message}. Please try again.</p>}
 
       <div id={readerId} className="w-100 rounded-xl overflow-hidden" />
       <h1 className="mt-5 font-bold text-xl text-center w-112.5">Now scan the event QR Code to record your attendance</h1>
