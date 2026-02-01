@@ -1,3 +1,4 @@
+import { IEvent } from "@/features/events/types";
 import { HomeHeader } from "@/features/partials";
 import { AnimatedList } from "@/shared/components/shared";
 import { GET } from "@/shared/config/api/crud";
