@@ -1,8 +1,7 @@
-import { SERVER_BASE_URL } from '@/shared/config/api/constants'
+import { SERVER_BASE_URL } from '@/shared/config/api/constants';
 import { getToken } from '@/shared/config/api/services';
-import { useEffect, useRef } from 'react'
-import { io } from 'socket.io-client'
-import { IAttendance } from '../interfaces';
+import { useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
 
 function useRecordAttendanceSocket(eventId: any) {
   const socketRef = useRef<any>(null);
@@ -40,21 +39,17 @@ function useRecordAttendanceSocket(eventId: any) {
   }
 
   function recordAttendance(
-    payload: {attendanceToken: string, userData: IAttendance},
+    payload: {attendanceToken: string, additionalInfo: Record<string, string>},
     callback: (response: any) => void
   ){
     try {
       const socket = socketRef.current;
-      console.log("Recording attendance for token:", payload.attendanceToken);
       if (!socket) return;
-      console.log("Hello from recordAttendance");
-      console.log("Emitting record-attendance event");
       socket.emit("record-attendance", {
         eventId,
         attendanceToken: payload.attendanceToken,
-        userData: payload.userData
+        additionalInfo: payload.additionalInfo
       }, (response: any) => {
-        console.log("Received response for record-attendance:", response);
         callback(response);
       })
     } catch (error) {

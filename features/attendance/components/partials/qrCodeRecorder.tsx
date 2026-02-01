@@ -7,10 +7,10 @@ import { redirect } from "next/navigation";
 
 interface IQRCodeRecorderProps {
   eventId: string;
-  userData: IAttendance;
+  additionalInfo: Record<string, string>;
 }
 
-export default function QRCodeRecorder({ eventId, userData }: IQRCodeRecorderProps) {
+export default function QRCodeRecorder({ eventId, additionalInfo }: IQRCodeRecorderProps) {
   const { decodedResult, isRunning, error, readerId } = useQrCodeScanner();
   const { recordAttendance } = useRecordAttendanceSocket(eventId)
   
@@ -29,14 +29,14 @@ export default function QRCodeRecorder({ eventId, userData }: IQRCodeRecorderPro
       setIsScanning(false);
       return
     };
-    recordAttendance({attendanceToken, userData}, (response) => {
+    recordAttendance({attendanceToken, additionalInfo}, (response) => {
       setRecordSuccessful(response.success);
       if (response.success) {
         redirect(`/attendance/${eventId}/record/success`);
       }
       setIsScanning(false);
     });
-  }, [isRunning, decodedResult, userData]);
+  }, [isRunning, decodedResult, additionalInfo]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen py-10">
