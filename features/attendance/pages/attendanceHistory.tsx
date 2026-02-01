@@ -19,17 +19,14 @@ export async function AttendanceHistory() {
           <p className='text-sm mt-1 text-primary-light/50'>Review past attendance records of events you attended.</p>
         </header>
         <div className='flex flex-col lg:-mx-4 gap-4 lg:gap-0'>
-          {attendance.map((record: any) => (
+          {attendance.map((record: any, index: number) => (
             <AnimatedList
               key={record.id}
               mainText={record.event.name}
               subText={record.event.location}
               endText={formatDate(record.created_at)}
+              delayIndex={index}
             />
-            //   <div key={record.id} className='bg-gray-100 p-4'>
-            //   <h2>{record.event.name}</h2>
-            //   <p className='text-sm text-gray-500'>{new Date(record.created_at).toLocaleDateString()}</p>
-            // </div>
           ))}
         </div>
       </div>
