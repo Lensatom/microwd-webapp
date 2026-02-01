@@ -4,8 +4,13 @@ import { QRCodeCanvas } from "qrcode.react"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { useGetEventById } from "../api"
 import { useAttendanceSocket } from "../hooks"
+import Link from "next/link"
+import { ChevronLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 function EventAttendance({ id}: { id: string }) {
+  const router = useRouter();
+
   const welcomeMessages = {
     1: "Welcome to Microwd — the fast, seamless way to take attendance using QR codes.",
     2: "To get started, simply scan the QR code below with your device's camera or a QR code scanner app.",
@@ -52,6 +57,24 @@ function EventAttendance({ id}: { id: string }) {
           height: !isPending ? `${qrCodeCanvasSize.max * 2}px` : "0"
         }}
       >
+        <div className="absolute top-0 left-0 p-3 flex justify-between w-full">
+          <div className="flex items-start gap-2">
+            <button className="mt-1 cursor-pointer" onClick={() => router.back()}>
+              <ChevronLeft size={20} />
+            </button>
+            <div>
+              <div className="flex items-center">
+                <h1 className="text-primary font-extrabold">{event?.name}</h1>
+              </div>
+              <p className="text-xs text-primary/50 font-medium">Powered by Microwd</p>
+            </div>
+          </div>
+          <div className="flex flex-col items-end">
+            <p className="text-primary/80 text-xs">Created by Lens</p>
+            <Link href="https://lensatom.me" className="text-primary/80 font-bold text-sm">Visit lensatom.me</Link>
+          </div>
+        </div>
+
         <div>
           <QRCodeCanvas
             value={attendanceToken || welcomeMessages[welcomeMessageKey]}
@@ -62,9 +85,9 @@ function EventAttendance({ id}: { id: string }) {
           />
         </div>
         <div className={`flex flex-col items-center mt-2 overflow-hidden`}>
-          <h1 className="text-3xl font-extrabold whitespace-nowrap text-primary">{event?.name}</h1>
+          {/* <h1 className="text-3xl font-extrabold whitespace-nowrap text-primary">{event?.name}</h1> */}
           <p className={`
-            whitespace-nowrap text-primary/80 text-sm font-medium opacity-0
+            whitespace-nowrap text-primary/80 font-semibold opacity-0 mt-2
             ${attendanceToken ? "opacity-100" : "opacity-0"}
             transition-all duration-2000 ease-in-out
           `}>
