@@ -7,6 +7,7 @@ import { useForm } from '@/shared/hooks/useForm';
 import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { validateCreateEvent } from '../helpers/validateCreateEvent';
+import { IEvent } from '../types';
 
 type INewEvent = Omit<IEvent, "_id"> & { newField: string };
 
