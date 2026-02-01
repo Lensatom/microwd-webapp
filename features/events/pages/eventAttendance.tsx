@@ -1,12 +1,12 @@
 "use client"
 
+import { ChevronLeft } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { QRCodeCanvas } from "qrcode.react"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { useGetEventById } from "../api"
 import { useAttendanceSocket } from "../hooks"
-import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
-import { useRouter } from "next/navigation"
 
 function EventAttendance({ id}: { id: string }) {
   const router = useRouter();

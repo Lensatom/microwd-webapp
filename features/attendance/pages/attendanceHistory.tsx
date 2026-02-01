@@ -1,4 +1,8 @@
+import { AnimatedList } from "@/shared/components/shared";
 import { GET } from "@/shared/config/api/crud"
+import { formatDate } from "@/shared/helpers/utils";
+import { ChevronLeftCircle } from "lucide-react";
+import Link from "next/link";
 
 export async function AttendanceHistory() {
   try {
@@ -6,17 +10,26 @@ export async function AttendanceHistory() {
     const attendance = response.data
 
     return (
-      <div className='px-44'>
-        <header className='py-6 border-b border-b-gray-200 mb-6'>
-          <h1 className='font-bold text-2xl text-primary'>Attendance History</h1>
-          <p className='text-sm mt-1 text-gray-500'>Review past attendance records of events you attended.</p>
+      <div className='lg:px-44 px-4 bg-primary min-h-screen'>
+        <header className='py-6 border-b'>
+          <Link href="../" className='cursor-pointer'>
+            <ChevronLeftCircle className='inline-block mr-2 mb-2 text-primary-light' />
+          </Link>
+          <h1 className='font-bold text-xl text-white'>Your Attendance History</h1>
+          <p className='text-sm mt-1 text-primary-light/50'>Review past attendance records of events you attended.</p>
         </header>
-        <div className='grid grid-cols-3 gap-6'>
+        <div className='flex flex-col lg:-mx-4 gap-4 lg:gap-0'>
           {attendance.map((record: any) => (
-            <div key={record.id} className='bg-gray-100 p-4'>
-              <h2>{record.event.name}</h2>
-              <p className='text-sm text-gray-500'>{new Date(record.created_at).toLocaleDateString()}</p>
-            </div>
+            <AnimatedList
+              key={record.id}
+              mainText={record.event.name}
+              subText={record.event.location}
+              endText={formatDate(record.created_at)}
+            />
+            //   <div key={record.id} className='bg-gray-100 p-4'>
+            //   <h2>{record.event.name}</h2>
+            //   <p className='text-sm text-gray-500'>{new Date(record.created_at).toLocaleDateString()}</p>
+            // </div>
           ))}
         </div>
       </div>
