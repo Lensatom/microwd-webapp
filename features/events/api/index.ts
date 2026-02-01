@@ -1,5 +1,6 @@
 import { GET, POST } from "@/shared/config/api/crud";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { IEvent } from "../types";
 
 export function useCreateEvent() {
   const { mutateAsync: createEvent, ...rest } = useMutation({
