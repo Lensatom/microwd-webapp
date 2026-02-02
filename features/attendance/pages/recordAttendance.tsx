@@ -13,7 +13,7 @@ async function RecordAttendance({
   const eventDetails = response.event
 
   if (eventDetails.hasFilled) {
-    // redirect(`/attendance/${eventId}/record/success`)
+    redirect(`/attendance/${eventId}/record/success`)
   }
   
   return <DataSharePrompt eventDetails={eventDetails} />
