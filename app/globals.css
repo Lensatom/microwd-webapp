@@ -27,6 +27,18 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Make html5-qrcode video fill its container */
+#qr-reader {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#qr-reader video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

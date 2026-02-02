@@ -16,9 +16,11 @@ export default function QRCodeRecorder() {
   }, [isRunning, decodedResult]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-screen py-10">
-      <div id={readerId} className="w-100 rounded-xl overflow-hidden" />
-      <h1 className="mt-5 font-bold text-xl text-center w-112.5">Scan the event QR Code to continue</h1>
+    <div className="fixed inset-0 z-10 bg-black">
+      <div id={readerId} className="absolute inset-0 w-screen h-screen overflow-hidden" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 p-6 text-center text-white/90">
+        <p className="text-base font-medium">Scan the event QR Code to continue</p>
+      </div>
     </div>
   );
 }

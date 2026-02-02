@@ -23,16 +23,17 @@ function DataSharePrompt({
   if (isApproved) return <QRCodeRecorder eventId={eventDetails._id} additionalInfo={additionalInfo} />
 
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-screen py-10">
-      <h1 className="text-xl font-semibold text-gray-700">{eventDetails.name} wants to collect the following details</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4 w-full lg:w-1/4">
+    <div className="px-4 flex flex-col items-center justify-center w-full min-h-screen py-10">
+      <h1 className="text-xl font-semibold text-white">{eventDetails.name}</h1>
+      <p className="text-sm mt-1">{eventDetails.name} wants to collect the following details</p>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full lg:w-1/4">
         <Input label="Firstname" disabled value={user.first_name} />
         <Input label="Lastname" disabled value={user.last_name} />
         <Input label="Email" disabled value={user.email} />
         {eventDetails.additionalInfoFields.map((field) => (
           <Input key={field} label={field} value={additionalInfo[field] || ''} onChange={(e) => setAdditionalInfo(prev => ({ ...prev, [field]: e.target.value }))} />
         ))}
-        <Button type="submit">Continue</Button>
+        <Button type="submit" className="mt-2">Continue</Button>
       </form>
     </div>
   )

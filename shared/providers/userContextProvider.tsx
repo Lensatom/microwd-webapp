@@ -33,7 +33,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     }
   }, [isPending, user, pathname, router]);
 
-  if (isPending) {
+  if (isPending || !user) {
     return (
       <div className="w-full h-screen bg-primary flex justify-center items-center">
         <Loader label="Loading Microwd" />
