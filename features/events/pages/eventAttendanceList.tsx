@@ -26,7 +26,7 @@ async function EventAttendanceList({ id }: {id: string}) {
             <ChevronLeftCircle className='inline-block mr-2 mb-2 text-primary-light' />
           </Link>
           <h1 className='font-bold text-xl text-white mt-2'>{eventDetails.name} Attendance List</h1>
-          <DownloadAttendance event={eventDetails} />
+          <DownloadAttendance event={eventDetails} disabled={attendanceList.length === 0} />
         </header>
         <Table className='mt-4'>
           <TableHeader>
@@ -39,6 +39,13 @@ async function EventAttendanceList({ id }: {id: string}) {
             </TableRow>
           </TableHeader>
           <TableBody>
+            {attendanceList.length === 0 && (
+              <TableRow className='bg-primary-light/20 text-primary-light'>
+                <TableCell colSpan={2 + eventDetails.additionalInfoFields.length} className="text-center">
+                  No attendance records found.
+                </TableCell>
+              </TableRow>
+            )}
             {attendanceList.map((attendance) => (
               <TableRow key={attendance._id} className='bg-primary-light/20 text-primary-light'>
                 <TableCell className="font-medium">{attendance.email}</TableCell>

@@ -115,7 +115,7 @@ function CreateEvent() {
             Add additional fields
           </Button>
           
-          <Button type="submit" isLoading={isPending} className="w-full mt-2 px-8 py-2 bg-white/70 text-primary rounded-md hover:bg-primary-dark transition">
+          <Button type="submit" isLoading={isPending} className="w-full mt-2 px-8 py-2 bg-white text-primary rounded-md hover:bg-primary-dark transition">
             Create Event
           </Button>
         </form>

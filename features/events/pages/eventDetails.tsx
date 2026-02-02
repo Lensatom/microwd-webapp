@@ -1,8 +1,9 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui"
 import { GET } from "@/shared/config/api/crud"
 import { formatDate } from "@/shared/helpers/utils"
-import { Calendar, ChevronDown, ChevronLeft, Eye, MapPin, Trash } from "lucide-react"
+import { Calendar, ChevronDown, ChevronLeft, Eye, MapPin } from "lucide-react"
 import Link from "next/link"
+import DeleteEvent from "../components/deleteEvent"
 import { IEvent } from "../types"
 
 async function EventDetails({ id }: { id: string }) {
@@ -49,9 +50,7 @@ async function EventDetails({ id }: { id: string }) {
                 <Eye />See attendance List
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-400">
-              <Trash />Delete Event
-            </DropdownMenuItem>
+            <DeleteEvent eventId={id} />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

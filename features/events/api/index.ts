@@ -1,4 +1,4 @@
-import { GET, POST } from "@/shared/config/api/crud";
+import { GET, POST, PUT } from "@/shared/config/api/crud";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { IEvent } from "../types";
 
@@ -21,7 +21,20 @@ export function useGetEventById({ eventId}: { eventId: string }) {
       return GET({route: `/events/${eventId}`});
     }
   });
-  console.log("|||||", data)
   const event = data?.event as IEvent || null;
   return { event, ...rest };
+}
+
+export function useDeleteEvent({ eventId }: { eventId: string }) {
+  const { mutateAsync: deleteEvent, ...rest } = useMutation({
+    mutationFn: async () => {
+      return PUT({
+        route: `/events/${eventId}`,
+        data: {
+          isDeleted: true
+        }
+      })
+    }
+  });
+  return { deleteEvent, ...rest };
 }
