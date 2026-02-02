@@ -1,17 +1,15 @@
-"use client"
-
-import { DropdownMenuItem } from "@/shared/components/ui";
 import { GET } from "@/shared/config/api/crud";
-import { ArrowDownToLine } from "lucide-react";
+import { useState } from "react";
 import streamSaver from "streamsaver";
-import { IEvent } from "../types";
 
-export default function DowloadAttendancePDF({ event }: { event: IEvent }) {
+function useDownloadCsv({ event } : { event: any }) {
 
   const {
     _id: eventId,
     name: eventName,
   } = event;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   async function downloadFile(url: string, filename: string) {
     const response = await fetch(url);
@@ -20,11 +18,14 @@ export default function DowloadAttendancePDF({ event }: { event: IEvent }) {
     if (response.body) {
       await response.body.pipeTo(fileStream);
     }
+    setIsLoading(false);
   }
 
 
   async function handleDownloadCsv() {
     try {
+      setIsLoading(true);
+
       const { url } = await GET({
         route: `/events/${eventId}/attendance-list/download`,
         authorization: true,
@@ -41,13 +42,15 @@ export default function DowloadAttendancePDF({ event }: { event: IEvent }) {
       downloadFile(url, filename);
 
     } catch (error) {
+      setIsLoading(false);
       console.error('Error during CSV download:', error);
     }
   }
 
-  return (
-    <DropdownMenuItem onClick={handleDownloadCsv}>
-      <ArrowDownToLine />Download Attendance List
-    </DropdownMenuItem>
-  )
+  return {
+    isLoading,
+    handleDownloadCsv
+  }
 }
+
+export default useDownloadCsv

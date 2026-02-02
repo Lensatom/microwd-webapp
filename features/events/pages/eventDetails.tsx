@@ -1,9 +1,9 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui"
 import { GET } from "@/shared/config/api/crud"
 import { formatDate } from "@/shared/helpers/utils"
-import { Calendar, ChevronDown, ChevronLeft, Eye, MapPin, Pen, Trash } from "lucide-react"
+import { Calendar, ChevronDown, ChevronLeft, Eye, MapPin, Trash } from "lucide-react"
 import Link from "next/link"
-import DownloadAttendancePDF from "../partials/downloadAttendancePdf"
+import DownloadAttendance from "../components/downloadAttendance"
 import { IEvent } from "../types"
 
 async function EventDetails({ id }: { id: string }) {
@@ -12,7 +12,7 @@ async function EventDetails({ id }: { id: string }) {
     isServer: true
   })
   const event = eventResponse.event as IEvent;
-  
+
   return (
     <div className="bg-primary w-full min-h-screen py-10 flex flex-col justify-center items-center">
       <div className="flex items-center">
@@ -49,10 +49,6 @@ async function EventDetails({ id }: { id: string }) {
               <Link href={`/events/${id}/attendance-list`} className="flex items-center gap-2">
                 <Eye />See attendance List
               </Link>
-            </DropdownMenuItem>
-            <DownloadAttendancePDF event={event} />
-            <DropdownMenuItem>
-              <Pen />Edit Event
             </DropdownMenuItem>
             <DropdownMenuItem className="text-red-400">
               <Trash />Delete Event

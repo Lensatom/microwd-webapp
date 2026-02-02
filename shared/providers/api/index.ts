@@ -9,7 +9,9 @@ export const useGetUser = () => {
         route: '/user',
       });
       return data;
-    }
+    },
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
   return { user : data?.user, ...rest };
