@@ -42,7 +42,7 @@ export default function QRCodeRecorder({ eventId, additionalInfo }: IQRCodeRecor
       <div id={readerId} className="absolute inset-0 w-screen h-screen overflow-hidden" />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 p-6 text-center text-white/90">
-        <p className="text-base font-medium">Now scan the event QR Code to record your attendance</p>
+        <p className="text-base font-medium bg-primary p-2 rounded-sm">Now scan the event QR Code to record your attendance</p>
         {recordSuccessful === null && <p className="mt-2 text-sm text-white/70">Waiting to scan QR code...</p>}
         {recordSuccessful?.success === true && (
           <p className="mt-2 text-sm text-green-400">Attendance recorded successfully!</p>
