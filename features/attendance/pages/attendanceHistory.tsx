@@ -19,6 +19,9 @@ export async function AttendanceHistory() {
           <p className='text-sm mt-1 text-primary-light/50'>Review past attendance records of events you attended.</p>
         </header>
         <div className='flex flex-col lg:-mx-4 gap-4 lg:gap-0'>
+          {attendance.length === 0 && (
+            <p className="text-primary-light text-center mt-10">No attendance records found.</p>
+          )}
           {attendance.map((record: any, index: number) => (
             <AnimatedList
               key={record.id}
