@@ -3,7 +3,6 @@ import { GET } from "@/shared/config/api/crud"
 import { formatDate } from "@/shared/helpers/utils"
 import { Calendar, ChevronDown, ChevronLeft, Eye, MapPin, Trash } from "lucide-react"
 import Link from "next/link"
-import DownloadAttendance from "../components/downloadAttendance"
 import { IEvent } from "../types"
 
 async function EventDetails({ id }: { id: string }) {
