@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useContext } from "react"
 
 function Profile() {
-  const { user } = useContext(UserContext)!
+  const user = useContext(UserContext)?.user!
 
   const router = useRouter();
 

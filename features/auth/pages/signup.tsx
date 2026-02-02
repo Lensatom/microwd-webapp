@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { useSignupWithGoogle } from "../api";
 
 function Signup() {
-  const router = useRouter();
   const { signupWithGoogle } = useSignupWithGoogle();
 
   const handleSignupWithGoogle = async (token: {credential: string}) => {
@@ -16,7 +15,6 @@ function Signup() {
     try {
       const { token: responseToken } = await signupWithGoogle(token.credential);
       await storeToken(responseToken);
-      router.replace("/");
     } catch (error) {
       toast.error("Signup with Google failed. Please try again.");
       console.error("Signup with Google failed:", error);

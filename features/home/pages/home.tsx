@@ -42,7 +42,7 @@ async function Home() {
           </div>
           <div className="grid grid-cols-1 mt-6 gap-2 px-4 lg:px-0">
             {eventsList.length ? eventsList.map((event, index) => (
-              <Link key={event._id} href={`/events/${event._id}`} className="flex border items-center gap-2 rounded-lg -mx-4">
+              <Link key={event._id} href={`/events/${event._id}`} className="flex items-center gap-2 rounded-lg -mx-4">
                 <AnimatedList
                   mainText={event.name}
                   subText={event.location}

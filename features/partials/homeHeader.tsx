@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useContext, useState } from "react"
 
 function HomeHeader() {
-  const { user } = useContext(UserContext)!
+  const user = useContext(UserContext)?.user!;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   

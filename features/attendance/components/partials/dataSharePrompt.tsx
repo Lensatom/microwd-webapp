@@ -10,7 +10,7 @@ import QRCodeRecorder from "./qrCodeRecorder"
 function DataSharePrompt({
   eventDetails
 }: {eventDetails: IEventDetails}) {
-  const { user } = useContext(UserContext)!
+  const user = useContext(UserContext)?.user!
 
   const [additionalInfo, setAdditionalInfo] = useState<Record<string, string>>({})
   const [isApproved, setIsApproved] = useState(false)
