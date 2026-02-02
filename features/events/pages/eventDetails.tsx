@@ -41,7 +41,7 @@ async function EventDetails({ id }: { id: string }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="rounded-l-none! bg-primary-light/60">
-              <ChevronDown />
+              <ChevronDown className="text-white/80" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 text-white" align="end">
