@@ -8,15 +8,19 @@ import { Loader } from "../components/ui";
 import { IUser } from "../interfaces/user";
 
 export function UserContextProvider({ children }: { children: React.ReactNode }) {
-  const { user: fetchedUser, isPending } = useGetUser();
+  const { user: fetchedUser, isPending, isError } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
 
-  const [user, setUser] = useState<IUser | null>();
+  const [user, setUser] = useState<IUser | null | undefined>(undefined);
 
   useEffect(() => {
+    if (isError) {
+      setUser(null);
+      return;
+    }
     setUser(fetchedUser);
-  }, [fetchedUser]);
+  }, [fetchedUser, isError]);
 
   useEffect(() => {
     if (user === undefined) return;
@@ -33,7 +37,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     }
   }, [isPending, user, pathname, router]);
 
-  if (isPending || !user) {
+  if (isPending || user === undefined) {
     return (
       <div className="w-full h-screen bg-primary flex justify-center items-center">
         <Loader label="Loading Microwd" />

@@ -19,3 +19,9 @@ export async function GET() {
   const token = cookieStore.get(ACCESS_TOKEN_KEY)?.value;
   return NextResponse.json({ token });
 }
+
+export async function DELETE() {
+  const cookieStore = await cookies();
+  cookieStore.delete({ name: ACCESS_TOKEN_KEY, path: "/" });
+  return NextResponse.json({ success: true });
+}

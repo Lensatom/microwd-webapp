@@ -1,16 +1,29 @@
 "use client"
 
 import { Input } from "@/shared/components/form"
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui"
+import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/components/ui"
 import { UserContext } from "@/shared/contexts/userContext"
 import { ChevronLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 function Profile() {
-  const user = useContext(UserContext)?.user!
+  const { user, setUser } = useContext(UserContext)!;
 
   const router = useRouter();
+
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    await fetch("/api/auth/token", { method: "DELETE" });
+    setUser(null);
+    router.replace("/signup");
+  }
+
+  if (!user) {
+    return <></>
+  }
 
   return (
     <div className="w-full px-4 mx-auto py-10 flex flex-col justify-center items-center bg-primary min-h-screen">
@@ -33,6 +46,7 @@ function Profile() {
         <Input label="First Name" placeholder="Enter your first name" className="mb-4" value={user.first_name} disabled />
         <Input label="Last Name" placeholder="Enter your last name" className="mb-4" value={user.last_name} disabled />
         <p className="mt-4 text-sm text-primary-light/50">These details are not editable for authenticity purposes.</p>
+        <Button variant="destructive" size="sm" className="mt-6 px-8" onClick={handleLogout} isLoading={isLoggingOut}>Log out</Button>
       </div>
     </div>
   )
