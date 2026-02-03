@@ -11,6 +11,8 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   const { user: fetchedUser, isPending, isError } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = new URLSearchParams(window.location.search);
+  const redirect = searchParams.get("redirect") || "";
 
   const [user, setUser] = useState<IUser | null | undefined>(undefined);
 
@@ -25,11 +27,11 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (user === undefined) return;
     if (!isPending && !user && pathname !== "/signup") {
-      router.replace(`/signup?redirect=${encodeURIComponent(pathname)}`);
+      router.replace(`/signup${pathname === "/profile" ? "" : `?redirect=${encodeURIComponent(pathname)}`}`);
     }
     if (!isPending && user && pathname === "/signup") {
-      if (pathname.includes("redirect=")) {
-        const redirectTo = decodeURIComponent(pathname.split("redirect=")[1]);
+      if (redirect) {
+        const redirectTo = decodeURIComponent(redirect);
         router.replace(redirectTo);
         return;
       }

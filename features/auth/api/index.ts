@@ -1,5 +1,4 @@
 import { POST } from "@/shared/config/api/crud";
-import { queryClient } from "@/shared/config/react-query";
 import { useMutation } from "@tanstack/react-query";
 
 export const useSignupWithGoogle = () => {
@@ -9,9 +8,6 @@ export const useSignupWithGoogle = () => {
         route: '/auth/signup/google',
         data: { token }
       });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
     }
   });
 
