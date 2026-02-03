@@ -24,7 +24,7 @@ export async function AttendanceHistory() {
           )}
           {attendance.map((record: any, index: number) => (
             <AnimatedList
-              key={record.id}
+              key={record._id}
               mainText={record.event.name}
               subText={record.event.location}
               endText={formatDate(record.created_at)}

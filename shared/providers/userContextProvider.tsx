@@ -11,7 +11,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   const { user: fetchedUser, isPending, isError } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = new URLSearchParams(window?.location?.search);
   const redirect = searchParams.get("redirect") || "";
 
   const [user, setUser] = useState<IUser | null | undefined>(undefined);
