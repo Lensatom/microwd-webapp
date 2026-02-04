@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { UserContext } from "../contexts/userContext";
 import { useGetUser } from "./api";
@@ -11,7 +11,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   const { user: fetchedUser, isPending, isError } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = new URLSearchParams(window?.location?.search);
+  const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "";
 
   const [user, setUser] = useState<IUser | null | undefined>(undefined);
@@ -37,7 +37,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
       }
       router.replace("/");
     }
-  }, [isPending, user, pathname, router]);
+  }, [isPending, user, pathname, router, redirect]);
 
   if (isPending || user === undefined) {
     return (
