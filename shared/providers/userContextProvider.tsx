@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { UserContext } from "../contexts/userContext";
 import { useGetUser } from "./api";
 import { Loader } from "../components/ui";
@@ -11,8 +11,15 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   const { user: fetchedUser, isPending, isError } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "";
+  const [redirect, setRedirect] = useState("");
+
+  function RedirectReader({ onChange }: { onChange: (value: string) => void }) {
+    const searchParams = useSearchParams();
+    useEffect(() => {
+      onChange(searchParams.get("redirect") || "");
+    }, [searchParams, onChange]);
+    return null;
+  }
 
   const [user, setUser] = useState<IUser | null | undefined>(undefined);
 
@@ -42,6 +49,9 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   if (isPending || user === undefined) {
     return (
       <div className="w-full h-screen bg-primary flex justify-center items-center">
+        <Suspense fallback={null}>
+          <RedirectReader onChange={setRedirect} />
+        </Suspense>
         <Loader label="Loading Microwd" />
       </div>
     )
@@ -49,6 +59,9 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
+      <Suspense fallback={null}>
+        <RedirectReader onChange={setRedirect} />
+      </Suspense>
       {children}
     </UserContext.Provider>
   );
