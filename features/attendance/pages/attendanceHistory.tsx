@@ -36,6 +36,7 @@ export async function AttendanceHistory() {
     )
   } catch (error) {
     console.error("Failed to fetch attendance history:", error);
+    return <>An unknown error occurred.</>
   }
 }
 
