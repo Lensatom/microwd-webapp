@@ -1,12 +1,12 @@
 "use client"
 
 import { storeToken } from "@/shared/config/api/services";
+import { UserContext } from "@/shared/contexts/userContext";
 import { GoalIcon } from "lucide-react";
+import { useContext } from "react";
 import { toast } from "react-toastify";
 import { useSignupWithGoogle } from "../api";
-import { useContext } from "react";
-import { UserContext } from "@/shared/contexts/userContext";
-import GoogleSignInButton from "@/shared/components/ui/googleSignInButton";
+import GoogleSignInButton from "../components/googleSignInButton";
 
 function Signup() {
   const { signupWithGoogle } = useSignupWithGoogle();
