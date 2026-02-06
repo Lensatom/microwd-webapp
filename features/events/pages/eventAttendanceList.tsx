@@ -1,7 +1,7 @@
 import { IAttendance, IEventDetails } from '@/features/attendance/interfaces'
-import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui'
 import { GET } from '@/shared/config/api/crud'
-import { ChevronLeftCircle, Download } from 'lucide-react'
+import { ChevronLeftCircle } from 'lucide-react'
 import Link from 'next/link'
 import DownloadAttendance from '../components/downloadAttendance'
 
