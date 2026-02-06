@@ -5,7 +5,7 @@ import { SERVER_BASE_URL } from './constants';
 import { redirect } from 'next/navigation';
 
 export const api = axios.create({
-  baseURL: SERVER_BASE_URL,
+  baseURL: `${SERVER_BASE_URL}/api/v1`,
   headers: {
     'Content-Type': 'application/json',
     // Bypass ngrok browser interstitial for XHR/fetch
