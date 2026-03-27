@@ -42,16 +42,16 @@ async function Home() {
       <div className="lg:w-1/2 px-4 lg:px-0 mx-auto">
         <HomeHeader />
 
-        <section className="lg:grid lg:grid-cols-3 flex flex-col overflow-x-auto gap-2 mt-5 text-gray-300/80">
+        <section className="lg:grid lg:grid-cols-3 flex flex-col overflow-x-auto gap-2 lg:mt-5 text-gray-300/80">
           <Link href="/events/create" className="lg:w-full bg-[#273E47]/80 p-4 rounded-md flex items-center gap-2">
             <Plus />
             <h2 className="font-bold mt-1 whitespace-nowrap">Create Event</h2>
           </Link>
-          <Link href="/attendance" className="lg:w-full bg-[#b3886b]/80 p-4 rounded-md hidden lg:flex items-center gap-2">
+          <Link href="/attendance" className="lg:w-full bg-[#b3886b]/80 p-4 rounded-md flex items-center gap-2">
             <Dock />
             <h2 className="font-bold mt-1 whitespace-nowrap">Submit Attendance</h2>
           </Link>
-          <Link href="/attendance/history" className="lg:w-full bg-[#706C61]/80 p-4 rounded-md hidden lg:flex items-center gap-2">
+          <Link href="/attendance/history" className="lg:w-full bg-[#706C61]/80 p-4 rounded-md flex items-center gap-2">
             <History />
             <h2 className="font-bold mt-1 whitespace-nowrap">History</h2>
           </Link>

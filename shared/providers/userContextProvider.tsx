@@ -53,6 +53,12 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     if (!isPending && !isFetching && user && pathname === "/signup") {
       if (redirect) {
         const redirectTo = decodeURIComponent(redirect);
+
+        if (redirectTo === "/about" || redirectTo.startsWith("/about?")) {
+          router.replace("/");
+          return;
+        }
+
         router.replace(redirectTo);
         return;
       }
