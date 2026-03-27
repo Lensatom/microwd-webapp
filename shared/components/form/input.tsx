@@ -4,7 +4,7 @@ import { ComponentProps, useId } from "react";
 function Input({ className, type, error, label, ...props }: ComponentProps<"input"> & { error?: string, label?: string }) {
   const id = useId();
   return (
-    <div>
+    <div className="w-full">
       <label htmlFor={id} className="text-sm text-primary-light">{label}</label>
       <input
         id={id}
