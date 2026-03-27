@@ -3,7 +3,7 @@
 import { Input } from '@/shared/components/form';
 import { Button } from '@/shared/components/ui';
 import { useForm } from '@/shared/hooks/useForm';
-import { ChevronLeftCircle, Plus, X } from 'lucide-react';
+import { CalendarDays, ChevronLeftCircle, Plus, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCreateEvent } from '../api';
 import { validateCreateEvent } from '../helpers/validateCreateEvent';
@@ -11,6 +11,10 @@ import { IEvent } from '../types';
 
 function CreateEvent() {
   const router = useRouter();
+  const eventDateHelpId = "event-date-help";
+  const eventDateErrorId = "event-date-error";
+  const eventDateInputId = "event-date-input";
+  const today = new Date().toISOString().split("T")[0];
 
   const { createEvent, isPending } = useCreateEvent();
 
@@ -49,6 +53,23 @@ function CreateEvent() {
     await createEvent(data);
     router.replace('/');
   }
+
+  const openDatePicker = () => {
+    const dateInput = document.getElementById(eventDateInputId) as (HTMLInputElement & { showPicker?: () => void }) | null;
+    if (!dateInput) return;
+
+    dateInput.focus();
+    dateInput.showPicker?.();
+  }
+
+  const selectedDateLabel = data.date
+    ? new Intl.DateTimeFormat(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(new Date(`${data.date}T00:00:00`))
+    : "No date selected";
     
   return (
     <div className='w-full min-h-screen flex py-10 justify-center items-center bg-primary'>
@@ -70,14 +91,32 @@ function CreateEvent() {
               onChange={(e) => changeData("name", e.target.value)}
               error={error.name}
             />
-            <Input
-              label="Event Date"
-              placeholder="19/01/2024"
-              type='date'
-              value={data.date}
-              onChange={(e) => changeData("date", e.target.value)}
-              error={error.date}
-            />
+            <div>
+              <label htmlFor={eventDateInputId} className="text-sm text-primary-light">Event Date</label>
+              <div className="relative mt-1">
+                <input
+                  id={eventDateInputId}
+                  type="date"
+                  min={today}
+                  value={data.date}
+                  onChange={(e) => changeData("date", e.target.value)}
+                  aria-invalid={error.date ? "true" : "false"}
+                  aria-describedby={`${eventDateHelpId}${error.date ? ` ${eventDateErrorId}` : ""}`}
+                  className="file:text-foreground text-primary-light selection:bg-primary-light selection:text-primary-foreground border-input h-9 w-full min-w-0 rounded-md border border-primary-light/20 bg-transparent px-3 pr-10 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-primary-light"
+                />
+                <button
+                  type="button"
+                  onClick={openDatePicker}
+                  aria-label="Open calendar picker"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-primary-light/70 hover:text-primary-light transition-colors"
+                >
+                  <CalendarDays size={16} />
+                </button>
+              </div>
+              <p id={eventDateHelpId} className="mt-1 text-xs text-primary-light/60">Use arrow keys or open the calendar button. Only future dates are allowed.</p>
+              <p className="mt-1 text-xs text-primary-light/75">Selected: {selectedDateLabel}</p>
+              {error.date ? <p id={eventDateErrorId} className="mt-1 text-xs text-red-400">{error.date}</p> : null}
+            </div>
           </div>
           <Input
             label="Event Location"
