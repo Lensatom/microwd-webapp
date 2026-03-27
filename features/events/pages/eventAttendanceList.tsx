@@ -1,5 +1,6 @@
 import { IAttendance, IEventDetails } from '@/features/attendance/interfaces'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui'
+import { isTransientApiError } from '@/shared/config/api/axios'
 import { GET } from '@/shared/config/api/crud'
 import { ChevronLeftCircle } from 'lucide-react'
 import Link from 'next/link'
@@ -63,8 +64,15 @@ async function EventAttendanceList({ id }: {id: string}) {
       </div>
     )
   } catch (error) {
-    console.log(error)
-    return <>Error</>
+    if (isTransientApiError(error)) {
+      return (
+        <div className='px-4 lg:px-44 bg-primary min-h-screen flex items-center justify-center'>
+          <p className="text-primary-light/70 text-center">Server is waking up. Please refresh in a few seconds.</p>
+        </div>
+      )
+    }
+
+    throw error;
   }
 }
 

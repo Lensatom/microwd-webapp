@@ -21,9 +21,20 @@ async function Home() {
   } catch (error) {
     if (isTransientApiError(error)) {
       isWakingUp = true;
-    } else {
-      console.error("Failed to fetch events:", error);
+      
+      return (
+        <div className="h-screen bg-primary lg:pt-6 w-full">
+          <div className="lg:w-1/2 px-4 lg:px-0 mx-auto">
+            <HomeHeader />
+            <p className="text-sm text-primary-light/70 mt-10 text-center">
+              Server is waking up. Refresh in a few seconds if your events do not appear yet.
+            </p>
+          </div>
+        </div>
+      )
     }
+
+    throw error;
   }
 
   return (
@@ -53,12 +64,6 @@ async function Home() {
               You are hosting...
             </h2>
           </div>
-
-          {isWakingUp ? (
-            <p className="text-sm text-primary-light/70 mt-6">
-              Server is waking up. Refresh in a few seconds if your events do not appear yet.
-            </p>
-          ) : null}
 
           <div className="grid grid-cols-1 mt-6 gap-2 px-4 lg:px-0">
             {eventsList.length ? eventsList.map((event, index) => (

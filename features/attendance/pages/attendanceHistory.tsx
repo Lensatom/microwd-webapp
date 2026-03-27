@@ -1,4 +1,5 @@
 import { AnimatedList } from "@/shared/components/shared";
+import { isTransientApiError } from "@/shared/config/api/axios";
 import { GET } from "@/shared/config/api/crud"
 import { formatDate } from "@/shared/helpers/utils";
 import { ChevronLeftCircle } from "lucide-react";
@@ -35,8 +36,15 @@ export async function AttendanceHistory() {
       </div>
     )
   } catch (error) {
-    console.error("Failed to fetch attendance history:", error);
-    return <>An unknown error occurred.</>
+    if (isTransientApiError(error)) {
+      return (
+        <div className='lg:px-44 px-4 bg-primary min-h-screen flex items-center justify-center'>
+          <p className="text-primary-light/70 text-center">Server is waking up. Please refresh in a few seconds.</p>
+        </div>
+      )
+    }
+
+    throw error;
   }
 }
 

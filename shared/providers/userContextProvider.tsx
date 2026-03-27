@@ -66,7 +66,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
           <RedirectReader onChange={setRedirect} />
         </Suspense>
 
-        <Loader label={isTransientError ? "Waking up server. Retrying automatically..." : "Loading Microwd"} />
+        <Loader label={isTransientError ? "There was trouble loading. Retrying automatically..." : "Loading Microwd"} />
 
         {isTransientError ? (
           <Button variant="outline" onClick={() => refetch()}>
