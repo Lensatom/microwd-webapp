@@ -4,7 +4,7 @@ import { AnimatedList } from "@/shared/components/shared";
 import { GET } from "@/shared/config/api/crud";
 import { isTransientApiError } from "@/shared/config/api/axios";
 import { formatDate } from "@/shared/helpers/utils";
-import { Calendar, Dock, History, Plus } from "lucide-react";
+import { Calendar, ChevronRight, Dock, History, Plus } from "lucide-react";
 import Link from "next/link";
 
 async function Home() {
@@ -43,17 +43,20 @@ async function Home() {
         <HomeHeader />
 
         <section className="lg:grid lg:grid-cols-3 flex flex-col overflow-x-auto gap-2 lg:mt-5 text-gray-300/80">
-          <Link href="/events/create" className="lg:w-full bg-[#273E47]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/events/create" className="lg:w-full bg-black/35 border border-white/10 hover:bg-black/55 transition-colors p-4 rounded-md flex items-center gap-2">
             <Plus />
             <h2 className="font-bold mt-1 whitespace-nowrap">Create Event</h2>
+            <ChevronRight className="ml-auto" />
           </Link>
-          <Link href="/attendance" className="lg:w-full bg-[#355264]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/attendance" className="lg:w-full bg-black/35 border border-white/10 hover:bg-black/55 transition-colors p-4 rounded-md flex items-center gap-2">
             <Dock />
             <h2 className="font-bold mt-1 whitespace-nowrap">Submit Attendance</h2>
+            <ChevronRight className="ml-auto" />
           </Link>
-          <Link href="/attendance/history" className="lg:w-full bg-[#445D6C]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/attendance/history" className="lg:w-full bg-black/35 border border-white/10 hover:bg-black/55 transition-colors p-4 rounded-md flex items-center gap-2">
             <History />
             <h2 className="font-bold mt-1 whitespace-nowrap">History</h2>
+            <ChevronRight className="ml-auto" />
           </Link>
         </section>
 
