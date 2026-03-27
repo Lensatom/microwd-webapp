@@ -64,7 +64,7 @@ async function Home() {
           <div className="flex items-center gap-2 text-white/50">
             <Calendar size={20} />
             <h2 className="font-semibold">
-              You are hosting...
+              Your events
             </h2>
           </div>
 
@@ -79,7 +79,7 @@ async function Home() {
                 />
               </Link>
             )) : (
-              <p className="text-sm text-gray-400 mt-2 col-span-2">You have not created any events yet.</p>
+              <p className="text-sm text-gray-400 mt-2 col-span-2 text-center">You have not created any events yet.</p>
             )}
           </div>
         </section>
