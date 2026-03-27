@@ -46,17 +46,17 @@ async function Home() {
           <Link href="/events/create" className="lg:w-full bg-black/35 border border-white/10 hover:bg-black/55 transition-colors p-4 rounded-md flex items-center gap-2">
             <Plus />
             <h2 className="font-bold mt-1 whitespace-nowrap">Create Event</h2>
-            <ChevronRight size={16} className="ml-auto" />
+            <ChevronRight size={16} className="ml-auto block md:hidden" />
           </Link>
           <Link href="/attendance" className="lg:w-full bg-black/35 border border-white/10 hover:bg-black/55 transition-colors p-4 rounded-md flex items-center gap-2">
             <Dock />
             <h2 className="font-bold mt-1 whitespace-nowrap">Submit Attendance</h2>
-            <ChevronRight size={16} className="ml-auto" />
+            <ChevronRight size={16} className="ml-auto block md:hidden" />
           </Link>
           <Link href="/attendance/history" className="lg:w-full bg-black/35 border border-white/10 hover:bg-black/55 transition-colors p-4 rounded-md flex items-center gap-2">
             <History />
             <h2 className="font-bold mt-1 whitespace-nowrap">History</h2>
-            <ChevronRight size={16} className="ml-auto" />
+            <ChevronRight size={16} className="ml-auto block md:hidden" />
           </Link>
         </section>
 
