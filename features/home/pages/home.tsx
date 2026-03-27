@@ -47,11 +47,11 @@ async function Home() {
             <Plus />
             <h2 className="font-bold mt-1 whitespace-nowrap">Create Event</h2>
           </Link>
-          <Link href="/attendance" className="lg:w-full bg-[#b3886b]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/attendance" className="lg:w-full bg-[#355264]/80 p-4 rounded-md flex items-center gap-2">
             <Dock />
             <h2 className="font-bold mt-1 whitespace-nowrap">Submit Attendance</h2>
           </Link>
-          <Link href="/attendance/history" className="lg:w-full bg-[#706C61]/80 p-4 rounded-md flex items-center gap-2">
+          <Link href="/attendance/history" className="lg:w-full bg-[#445D6C]/80 p-4 rounded-md flex items-center gap-2">
             <History />
             <h2 className="font-bold mt-1 whitespace-nowrap">History</h2>
           </Link>
