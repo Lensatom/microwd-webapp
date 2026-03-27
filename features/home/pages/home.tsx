@@ -2,16 +2,29 @@ import { IEvent } from "@/features/events/types";
 import { HomeHeader } from "@/features/home/partials";
 import { AnimatedList } from "@/shared/components/shared";
 import { GET } from "@/shared/config/api/crud";
+import { isTransientApiError } from "@/shared/config/api/axios";
 import { formatDate } from "@/shared/helpers/utils";
 import { Calendar, Dock, History, Plus } from "lucide-react";
 import Link from "next/link";
 
 async function Home() {
-  const eventsResponse = await GET({
-    route: '/events/me',
-    isServer: true
-  })
-  const eventsList = eventsResponse.events as IEvent[];
+  let eventsList: IEvent[] = [];
+  let isWakingUp = false;
+
+  try {
+    const eventsResponse = await GET({
+      route: '/events/me',
+      isServer: true
+    })
+
+    eventsList = (eventsResponse.events as IEvent[]) ?? [];
+  } catch (error) {
+    if (isTransientApiError(error)) {
+      isWakingUp = true;
+    } else {
+      console.error("Failed to fetch events:", error);
+    }
+  }
 
   return (
     <div className="h-screen bg-primary lg:pt-6 w-full">
@@ -40,6 +53,13 @@ async function Home() {
               You are hosting...
             </h2>
           </div>
+
+          {isWakingUp ? (
+            <p className="text-sm text-primary-light/70 mt-6">
+              Server is waking up. Refresh in a few seconds if your events do not appear yet.
+            </p>
+          ) : null}
+
           <div className="grid grid-cols-1 mt-6 gap-2 px-4 lg:px-0">
             {eventsList.length ? eventsList.map((event, index) => (
               <Link key={event._id} href={`/events/${event._id}`} className="flex items-center gap-2 rounded-lg -mx-4">

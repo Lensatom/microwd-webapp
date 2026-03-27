@@ -1,4 +1,5 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui"
+import { isTransientApiError } from "@/shared/config/api/axios"
 import { GET } from "@/shared/config/api/crud"
 import { formatDate } from "@/shared/helpers/utils"
 import { Calendar, ChevronDown, ChevronLeft, Eye, MapPin } from "lucide-react"
@@ -7,11 +8,31 @@ import DeleteEvent from "../components/deleteEvent"
 import { IEvent } from "../types"
 
 async function EventDetails({ id }: { id: string }) {
-  const eventResponse = await GET({
-    route: `/events/${id}`,
-    isServer: true
-  })
-  const event = eventResponse.event as IEvent;
+  let event: IEvent | null = null;
+
+  try {
+    const eventResponse = await GET({
+      route: `/events/${id}`,
+      isServer: true
+    })
+
+    event = eventResponse.event as IEvent;
+  } catch (error) {
+    if (isTransientApiError(error)) {
+      return (
+        <div className="bg-primary w-full min-h-screen py-10 flex flex-col justify-center items-center text-primary-light px-6 text-center">
+          <p className="text-sm">Server is waking up. Please refresh in a few seconds.</p>
+          <Link href="/" className="underline mt-2">Go back home</Link>
+        </div>
+      )
+    }
+
+    throw error;
+  }
+
+  if (!event) {
+    return null;
+  }
 
   return (
     <div className="bg-primary w-full min-h-screen py-10 flex flex-col justify-center items-center">
