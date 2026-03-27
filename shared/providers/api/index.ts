@@ -10,8 +10,6 @@ export const useGetUser = () => {
       });
       return data;
     },
-    retry: false,
-    refetchOnWindowFocus: false,
   });
 
   return { user : data?.user, ...rest };

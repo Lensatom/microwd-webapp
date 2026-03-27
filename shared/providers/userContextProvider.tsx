@@ -4,14 +4,16 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { UserContext } from "../contexts/userContext";
 import { useGetUser } from "./api";
-import { Loader } from "../components/ui";
+import { Button, Loader } from "../components/ui";
 import { IUser } from "../interfaces/user";
+import { isTransientApiError, isUnauthorizedError } from "../config/api/axios";
 
 export function UserContextProvider({ children }: { children: React.ReactNode }) {
-  const { user: fetchedUser, isPending, isError } = useGetUser();
+  const { user: fetchedUser, isPending, isFetching, isError, error, refetch } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
   const [redirect, setRedirect] = useState("");
+  const isTransientError = isTransientApiError(error);
 
   function RedirectReader({ onChange }: { onChange: (value: string) => void }) {
     const searchParams = useSearchParams();
@@ -25,18 +27,29 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (isError) {
+      if (isUnauthorizedError(error)) {
+        setUser(null);
+        return;
+      }
+
+      if (isTransientError) {
+        setUser(undefined);
+        return;
+      }
+
       setUser(null);
       return;
     }
+
     setUser(fetchedUser);
-  }, [fetchedUser, isError]);
+  }, [fetchedUser, isError, error, isTransientError]);
 
   useEffect(() => {
     if (user === undefined) return;
-    if (!isPending && !user && pathname !== "/signup") {
+    if (!isPending && !isFetching && !user && pathname !== "/signup") {
       router.replace(`/signup${pathname === "/profile" ? "" : `?redirect=${encodeURIComponent(pathname)}`}`);
     }
-    if (!isPending && user && pathname === "/signup") {
+    if (!isPending && !isFetching && user && pathname === "/signup") {
       if (redirect) {
         const redirectTo = decodeURIComponent(redirect);
         router.replace(redirectTo);
@@ -44,15 +57,22 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
       }
       router.replace("/");
     }
-  }, [isPending, user, pathname, router, redirect]);
+  }, [isPending, isFetching, user, pathname, router, redirect]);
 
-  if (isPending || user === undefined) {
+  if (isPending || isFetching || user === undefined) {
     return (
-      <div className="w-full h-screen bg-primary flex justify-center items-center">
+      <div className="w-full h-screen bg-primary flex flex-col justify-center items-center gap-4 px-6 text-center">
         <Suspense fallback={null}>
           <RedirectReader onChange={setRedirect} />
         </Suspense>
-        <Loader label="Loading Microwd" />
+
+        <Loader label={isTransientError ? "Waking up server. Retrying automatically..." : "Loading Microwd"} />
+
+        {isTransientError ? (
+          <Button variant="outline" onClick={() => refetch()}>
+            Retry now
+          </Button>
+        ) : null}
       </div>
     )
   }
