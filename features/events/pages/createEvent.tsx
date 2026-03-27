@@ -113,8 +113,6 @@ function CreateEvent() {
                   <CalendarDays size={16} />
                 </button>
               </div>
-              <p id={eventDateHelpId} className="mt-1 text-xs text-primary-light/60">Use arrow keys or open the calendar button. Only future dates are allowed.</p>
-              <p className="mt-1 text-xs text-primary-light/75">Selected: {selectedDateLabel}</p>
               {error.date ? <p id={eventDateErrorId} className="mt-1 text-xs text-red-400">{error.date}</p> : null}
             </div>
           </div>
