@@ -12,6 +12,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   const { user: fetchedUser, isPending, isFetching, isError, error, refetch } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
+  const isPublicRoute = pathname === "/signup" || pathname === "/about";
   const [redirect, setRedirect] = useState("");
   const isTransientError = isTransientApiError(error);
 
@@ -46,7 +47,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (user === undefined) return;
-    if (!isPending && !isFetching && !user && pathname !== "/signup") {
+    if (!isPending && !isFetching && !user && !isPublicRoute) {
       router.replace(`/signup${pathname === "/profile" ? "" : `?redirect=${encodeURIComponent(pathname)}`}`);
     }
     if (!isPending && !isFetching && user && pathname === "/signup") {
@@ -57,7 +58,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
       }
       router.replace("/");
     }
-  }, [isPending, isFetching, user, pathname, router, redirect]);
+  }, [isPending, isFetching, user, pathname, router, redirect, isPublicRoute]);
 
   if (isPending || isFetching || user === undefined) {
     return (
