@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -8,8 +8,19 @@ import { Button, Loader } from "../components/ui";
 import { IUser } from "../interfaces/user";
 import { isTransientApiError, isUnauthorizedError } from "../config/api/axios";
 
-export function UserContextProvider({ children }: { children: React.ReactNode }) {
-  const { user: fetchedUser, isPending, isFetching, isError, error, refetch } = useGetUser();
+export function UserContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const {
+    user: fetchedUser,
+    isPending,
+    isFetching,
+    isError,
+    error,
+    refetch,
+  } = useGetUser();
   const router = useRouter();
   const pathname = usePathname();
   const isPublicRoute = pathname === "/signup" || pathname === "/about";
@@ -48,11 +59,19 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (user === undefined) return;
     if (!isPending && !isFetching && !user && !isPublicRoute) {
-      router.replace(`/signup${pathname === "/profile" ? "" : `?redirect=${encodeURIComponent(pathname)}`}`);
+      router.replace(
+        `/signup${pathname === "/profile" ? "" : `?redirect=${encodeURIComponent(pathname)}`}`,
+      );
     }
     if (!isPending && !isFetching && user && pathname === "/signup") {
       if (redirect) {
-        const redirectTo = decodeURIComponent(redirect);
+        let redirectTo = decodeURIComponent(redirect);
+
+        // Prevent redirecting to non-existent /login route which causes a 404.
+        if (redirectTo === "/login" || redirectTo.startsWith("/login?")) {
+          router.replace("/");
+          return;
+        }
 
         if (redirectTo === "/about" || redirectTo.startsWith("/about?")) {
           router.replace("/");
@@ -73,7 +92,13 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
           <RedirectReader onChange={setRedirect} />
         </Suspense>
 
-        <Loader label={isTransientError ? "There was trouble loading. Retrying automatically..." : "Loading Microwd"} />
+        <Loader
+          label={
+            isTransientError
+              ? "There was trouble loading. Retrying automatically..."
+              : "Loading Microwd"
+          }
+        />
 
         {isTransientError ? (
           <Button variant="outline" onClick={() => refetch()}>
@@ -81,7 +106,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
           </Button>
         ) : null}
       </div>
-    )
+    );
   }
 
   return (
